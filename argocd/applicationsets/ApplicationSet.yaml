@@ -9,23 +9,30 @@ spec:
         elements:
           - name: database
             namespace: postgres
-            path: k8s-specifications/database/postgres
+            path: infra/postgres
+
           - name: redis
-            namespace: vote
-            path: k8s-specifications/redis/redis
+            namespace: redis
+            path: infra/redis
+
           - name: result
             namespace: vote
-            path: k8s-specifications/vote-dev/result
+            path: apps/result
+            
           - name: vote
             namespace: vote
-            path: k8s-specifications/vote-dev/vote
+            path: apps/vote
+          
+          - name: worker
+            namespace: vote
+            path: apps/worker
   template:
     metadata:
       name: '{{name}}-app'
     spec:
       project: default
       source:
-        repoURL: https://github.com/stackcouture/gke-microservices-platform.git
+        repoURL: https://github.com/stackcouture/gitops-microservices-platform.git
         targetRevision: main
         path: '{{path}}'
       destination:
