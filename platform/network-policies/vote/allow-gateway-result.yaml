@@ -1,8 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+
 metadata:
   name: allow-gateway-result
   namespace: vote
+
 spec:
   podSelector:
     matchLabels:
@@ -12,9 +14,6 @@ spec:
   - Ingress
 
   ingress:
-  - from:
-    - namespaceSelector: {}
-
-    ports:
+  - ports:
     - protocol: TCP
       port: 8080

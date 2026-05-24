@@ -7,9 +7,6 @@ spec:
   parentRefs:
   - name: result-gateway
 
-  hostnames:
-  - resulting.local
-
   rules:
   - matches:
     - path:
@@ -19,3 +16,4 @@ spec:
     backendRefs:
     - name: result
       port: 80
+      weight: 1
