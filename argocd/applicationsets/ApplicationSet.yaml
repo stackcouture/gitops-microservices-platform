@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: microservices-platform
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: database
+            namespace: postgres
+            path: k8s-specifications/database/postgres
+          - name: redis
+            namespace: vote
+            path: k8s-specifications/redis/redis
+          - name: result
+            namespace: vote
+            path: k8s-specifications/vote-dev/result
+          - name: vote
+            namespace: vote
+            path: k8s-specifications/vote-dev/vote
+  template:
+    metadata:
+      name: '{{name}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/stackcouture/gke-microservices-platform.git
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
