@@ -5,12 +5,16 @@ metadata:
   namespace: argocd
 spec:
   description: Stateless application workloads
+  
   sourceRepos:
     - https://github.com/stackcouture/gitops-microservices-platform.git
+
   destinations:
     - namespace: vote
       server: https://kubernetes.default.svc
+  
   clusterResourceWhitelist: []
+  
   namespaceResourceWhitelist:
     - group: apps
       kind: Deployment
@@ -23,6 +27,9 @@ spec:
 
     - group: ''
       kind: Secret
+
+    - group: ''
+      kind: ServiceAccount
 
     - group: networking.k8s.io
       kind: Ingress
@@ -38,3 +45,9 @@ spec:
 
     - group: autoscaling
       kind: HorizontalPodAutoscaler
+
+    - group: rbac.authorization.k8s.io
+      kind: Role
+
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
