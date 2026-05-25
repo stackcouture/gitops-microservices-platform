@@ -1,34 +1,55 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
+
 metadata:
   name: infra-project
   namespace: argocd
+
 spec:
   description: Stateful infrastructure services
+
   sourceRepos:
     - https://github.com/stackcouture/gitops-microservices-platform.git
+
   destinations:
     - namespace: postgres
       server: https://kubernetes.default.svc
+
     - namespace: redis
       server: https://kubernetes.default.svc
+
   clusterResourceWhitelist:
     - group: ''
       kind: Namespace
+
   namespaceResourceWhitelist:
+
     - group: apps
       kind: StatefulSet
+
     - group: apps
       kind: Deployment
+
     - group: ''
       kind: Service
+
     - group: ''
       kind: ConfigMap
+
     - group: ''
       kind: Secret
+
     - group: ''
       kind: PersistentVolumeClaim
+
+    - group: external-secrets.io
+      kind: ExternalSecret
+
     - group: policy
       kind: PodDisruptionBudget
+
     - group: autoscaling
       kind: HorizontalPodAutoscaler
+
+    - group: networking.k8s.io
+      kind: NetworkPolicy

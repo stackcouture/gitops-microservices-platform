@@ -14,17 +14,27 @@ spec:
   namespaceResourceWhitelist:
     - group: apps
       kind: Deployment
+
     - group: ''
       kind: Service
+
     - group: ''
       kind: ConfigMap
+
     - group: ''
       kind: Secret
+
     - group: networking.k8s.io
       kind: Ingress
+    
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
+
     - group: policy
       kind: PodDisruptionBudget
+
     - group: autoscaling
       kind: HorizontalPodAutoscaler
