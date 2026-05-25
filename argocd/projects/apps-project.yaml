@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: apps-project
+  namespace: argocd
+spec:
+  description: Stateless application workloads
+  sourceRepos:
+    - https://github.com/stackcouture/gitops-microservices-platform.git
+  destinations:
+    - namespace: vote
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: apps
+      kind: Deployment
+    - group: ''
+      kind: Service
+    - group: ''
+      kind: ConfigMap
+    - group: ''
+      kind: Secret
+    - group: networking.k8s.io
+      kind: Ingress
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+    - group: policy
+      kind: PodDisruptionBudget
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler

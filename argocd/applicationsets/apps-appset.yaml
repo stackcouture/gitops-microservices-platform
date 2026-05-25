@@ -1,28 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: microservices-platform
+  name: apps-applications
   namespace: argocd
 spec:
   generators:
     - list:
         elements:
-          - name: database
-            namespace: postgres
-            path: infra/postgres
-
-          - name: redis
-            namespace: redis
-            path: infra/redis
-
-          - name: result
-            namespace: vote
-            path: apps/result
-            
           - name: vote
             namespace: vote
             path: apps/vote
-          
+          - name: result
+            namespace: vote
+            path: apps/result
           - name: worker
             namespace: vote
             path: apps/worker
@@ -30,7 +20,7 @@ spec:
     metadata:
       name: '{{name}}-app'
     spec:
-      project: default
+      project: apps-project
       source:
         repoURL: https://github.com/stackcouture/gitops-microservices-platform.git
         targetRevision: main
