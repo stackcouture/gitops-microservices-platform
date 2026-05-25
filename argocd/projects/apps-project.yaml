@@ -12,6 +12,9 @@ spec:
   destinations:
     - namespace: vote
       server: https://kubernetes.default.svc
+
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
   
   clusterResourceWhitelist: []
   
@@ -51,3 +54,9 @@ spec:
 
     - group: rbac.authorization.k8s.io
       kind: RoleBinding
+
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
