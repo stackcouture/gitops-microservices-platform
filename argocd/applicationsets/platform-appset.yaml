@@ -7,9 +7,6 @@ spec:
   generators:
     - list:
         elements:
-          - name: monitoring
-            namespace: monitoring
-            path: platform/monitoring
           - name: external-secrets
             namespace: external-secrets
             path: platform/external-secrets
