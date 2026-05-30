@@ -7,8 +7,9 @@ spec:
   metrics:
     - name: request-rate
       interval: 30s
+      count: 3
       successCondition: result[0] >= 1
-      failureLimit: 3
+      failureLimit: 1
       provider:
         prometheus:
           address: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
@@ -23,8 +24,9 @@ spec:
 
     - name: avg-response-time
       interval: 30s
+      count: 3
       successCondition: result[0] < 1
-      failureLimit: 3
+      failureLimit: 1
       provider:
         prometheus:
           address: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
