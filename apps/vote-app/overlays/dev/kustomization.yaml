@@ -8,7 +8,7 @@ resources:
 
 images:
   - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/vote
-    newTag: f0a0590c6cd8b5460aa81c383cdaa84a15eba9fc
+    newTag: 8a88274ab9c725867f488a4a0b7bcf4cbd761a3f
     
 patches:
   - path: replica-patch.yaml
