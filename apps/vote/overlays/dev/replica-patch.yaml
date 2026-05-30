@@ -1,0 +1,7 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: vote
+  namespace: argo-demo
+spec:
+  replicas: 1
