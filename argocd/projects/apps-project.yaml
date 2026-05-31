@@ -60,3 +60,6 @@ spec:
 
     - group: monitoring.coreos.com
       kind: PrometheusRule
+
+    - group: argoproj.io
+      kind: Rollout
