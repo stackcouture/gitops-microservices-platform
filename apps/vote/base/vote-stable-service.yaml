@@ -3,15 +3,15 @@ kind: Service
 metadata:
   labels:
     app: vote
-  name: vote-argo-svc
-  namespace: argo-demo
+  name: vote-stable
+  namespace: vote
 spec:
-  sessionAffinity: ClientIP
-  type: ClusterIP
-  ports:
-  - name: http
-    port: 80
-    targetPort: 8080
   selector:
     app: vote
+  sessionAffinity: ClientIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
   

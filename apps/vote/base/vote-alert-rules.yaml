@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vote-alert-rules
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: vote.rules
+      rules:
+        - alert: HighRequestRate
+          expr: sum(rate(flask_http_request_total[1m])) > 1
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High request rate detected"
+            description: "Vote app request rate is above threshold"
+
+        - alert: VoteAppDown
+          expr: up{job="vote"} == 0
+          for: 30s
+          labels:
+            severity: critical
+          annotations:
+            summary: "Vote application is down"
+            description: "Prometheus cannot scrape vote app"

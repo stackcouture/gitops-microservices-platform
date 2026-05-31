@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: vote-pdb
+  namespace: vote
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: vote

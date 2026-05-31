@@ -6,3 +6,12 @@ resources:
   - rollout.yaml
   - hpa.yaml
   - analysis-template.yaml
+  - pdb.yaml 
+  - postgres-alias.yaml 
+  - rbac.yaml
+  - redis-alias.yaml
+  - serviceaccount.yaml
+  - servicemonitor.yaml
+  - vote-alert-rules.yaml
+  - vote-canary-service.yaml
+  - vote-stable-service.yaml
