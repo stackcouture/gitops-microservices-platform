@@ -4,9 +4,9 @@ kind: Kustomization
 namespace: vote
 
 resources:
-  - ../../base
+- ../../base
 
 images:
-  - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
-    newTag: b49ee808336fb1f0c71c9596e3271e7744de14c7
-    
+- name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
+  newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
+  newTag: bd64cb595c38f991fd819f837520fcbb69424aac
