@@ -1,7 +1,0 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
-metadata:
-  name: vote
-  namespace: vote
-spec:
-  replicas: 1
