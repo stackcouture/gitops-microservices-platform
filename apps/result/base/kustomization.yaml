@@ -5,7 +5,6 @@ resources:
   - result-stable-service.yaml
   - result-canary-service.yaml
   - rollout.yaml
-  - hpa.yaml
   - analysis-template.yaml
   - rbac.yaml
   - serviceaccount.yaml
