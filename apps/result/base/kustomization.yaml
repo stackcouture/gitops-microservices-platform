@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - result-stable-service.yaml
-  - result-canary-service.yaml
+  - result-active-svc.yaml
+  - result-preview-svc.yaml
   - rollout.yaml
   - analysis-template.yaml
   - rbac.yaml
