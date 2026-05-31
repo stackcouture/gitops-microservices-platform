@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: result
+            name: result-stable-svc
             port:
               number: 80

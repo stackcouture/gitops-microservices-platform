@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: vote
+            name: vote-stable
             port:
               number: 80
