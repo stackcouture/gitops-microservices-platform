@@ -1,31 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
+
 metadata:
   name: result
-  namespace: argo-demo
+  namespace: vote
   labels:
     app: result
+
 spec:
   replicas: 1
   revisionHistoryLimit: 5
-  selector:
-    matchLabels:
-      app: result
-  template:
-    metadata:
-      labels:
-        app: result
-    spec:
-      containers:
-        - name: result
-          image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8080
+  progressDeadlineSeconds: 600
+
   strategy:
     canary:
+      stableService: result-stable-svc 
+      canaryService: result-canary-svc 
+
       maxSurge: 1
-      maxUnavailable: 0
+      maxUnavailable: 1
       steps:
         - setWeight: 20
         - pause:
@@ -42,3 +35,105 @@ spec:
               - templateName: result-traffic-check
 
         - setWeight: 100
+
+  selector:
+    matchLabels:
+      app: result
+
+  template:
+    metadata:
+      labels:
+        app: result
+
+    spec:
+      serviceAccountName: result-sa
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: result
+          image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: result
+              containerPort: 8080
+
+          env:
+            - name: DB_HOST
+              value: db.postgres.svc.cluster.local
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+
+            capabilities:
+              drop:
+                - ALL
+
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - result
+
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: result
+
+      
+      volumes:
+      - name: tmp
+        emptyDir: {}
+  

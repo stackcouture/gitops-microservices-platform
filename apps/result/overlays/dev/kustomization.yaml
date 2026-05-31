@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argo-demo
+namespace: vote
 
 resources:
   - ../../base
@@ -10,5 +10,3 @@ images:
   - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
     newTag: 4672d74b127ceb861e3f7e7db7407e264f1d3a8d
     
-patches:
-  - path: replica-patch.yaml
