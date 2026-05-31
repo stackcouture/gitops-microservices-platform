@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: vote
-  namespace: argo-demo
+  namespace: vote
 spec:
   replicas: 3
   revisionHistoryLimit: 2

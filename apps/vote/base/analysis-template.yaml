@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: vote-traffic-check
-  namespace: argo-demo
+  namespace: vote
 spec:
   metrics:
     - name: request-rate

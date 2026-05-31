@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: vote-hpa
-  namespace: argo-demo
+  namespace: vote
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
