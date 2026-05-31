@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: result
-  name: result-canary-svc 
+  name: result-preview-svc 
   namespace: vote
 spec:
   sessionAffinity: ClientIP

@@ -9,37 +9,17 @@ metadata:
 
 spec:
   replicas: 1
-  revisionHistoryLimit: 5
+  revisionHistoryLimit: 3
   progressDeadlineSeconds: 600
 
   strategy:
-    canary:
-      stableService: result-stable-svc 
-      canaryService: result-canary-svc 
-
-      maxSurge: 1
-      maxUnavailable: 1
-      steps:
-        - setWeight: 20
-        - pause:
-            duration: 30s
-        - analysis:
-            templates:
-              - templateName: result-traffic-check
-
-        - setWeight: 50
-        - pause:
-            duration: 30s
-        - analysis:
-            templates:
-              - templateName: result-traffic-check
-
-        - setWeight: 100
-
+    blueGreen:
+      activeService: result-active-svc 
+      previewService: result-preview-svc 
+      autoPromotionEnabled: false
   selector:
     matchLabels:
       app: result
-
   template:
     metadata:
       labels:
