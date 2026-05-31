@@ -5,7 +5,6 @@ resources:
   - result-active-svc.yaml
   - result-preview-svc.yaml
   - rollout.yaml
-  - analysis-template.yaml
   - rbac.yaml
   - serviceaccount.yaml
   - servicemonitor.yaml
