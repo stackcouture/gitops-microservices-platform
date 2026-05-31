@@ -9,10 +9,10 @@ spec:
         elements:
           - name: vote
             namespace: vote
-            path: apps/vote
+            path: apps/vote/overlays/dev
           - name: result
             namespace: vote
-            path: apps/result
+            path: apps/result/overlays/dev
           - name: worker
             namespace: vote
             path: apps/worker
