@@ -47,12 +47,9 @@ This repo is the middle layer of a three-repo GitOps platform:
 
 | Repo                                            | Role                                   |
 |-------------------------------------------------|----------------------------------------|
-| `platform-infra`                                | Terraform — provisions GKE, VPC, IAM,  |
-|                                                 | Artifact Registry                      |
-| `voting-app`                                    | Application source code + CI builds    |
-|                                                 | + image push                           |
-| **`gitops-microservices-platform`** (this repo) | Desired Kubernetes state — watched by  |
-|                                                 | ArgoCD                                 |
+| `platform-infra`                                | Terraform — provisions GKE, VPC, IAM,  Artifact Registry                      |
+| `voting-app`                                    | Application source code + CI builds + image push                           |
+| **`gitops-microservices-platform`** (this repo) | Desired Kubernetes state — watched by  ArgoCD                                 |
 
 ```
 voting-app CI pushes new image tag
