@@ -9,10 +9,10 @@ spec:
         elements:
           - name: postgres
             namespace: postgres
-            path: infra/postgres
+            path: infra/postgres/overlays/dev
           - name: redis
             namespace: redis
-            path: infra/redis
+            path: infra/redis/overlays/dev
   template:
     metadata:
       name: '{{name}}-app'

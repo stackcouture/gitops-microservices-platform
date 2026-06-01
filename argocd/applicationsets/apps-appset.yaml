@@ -15,7 +15,7 @@ spec:
             path: apps/result/overlays/dev
           - name: worker
             namespace: vote
-            path: apps/worker
+            path: apps/worker/overlays/dev
   template:
     metadata:
       name: '{{name}}-app'
