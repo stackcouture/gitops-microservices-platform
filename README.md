@@ -267,3 +267,35 @@ gitops-microservices-platform/
                 └── kustomization.yaml
 ```
 ---
+## Folders In Detail
+
+### 📁 `apps/`
+
+Contains all Kubernetes manifests for the five voting app microservices. Each service follows the same **Kustomize `base` + `overlays`** pattern:
+
+- **`base/`** — environment-agnostic Kubernetes resources (`Deployment`, `Service`, `ConfigMap`). Uses a placeholder image tag and is never edited directly after initial creation.
+- **`overlays/dev/`** — dev-environment-specific patches: image tag (updated by CI on every build), replica count, resource limits, and environment variables.
+
+**Services managed:**
+
+| Service    | Language       | Port | Description                          |
+|------------|----------------|------|--------------------------------------|
+| `vote`     | Python (Flask) | 80   | Web UI for casting votes             |
+| `result`   | Node.js        | 80   | Web UI for displaying results        |
+| `worker`   | C# (.NET)      | —    | Processes votes: Redis to PostgreSQL |
+| `redis`    | Redis          | 6379 | In-memory vote queue                 |
+| `db`       | PostgreSQL     | 5432 | Persistent vote result storage       |
+
+**How image tags are updated by CI:**
+
+When the `voting-app` CI pipeline pushes a new image to Artifact Registry, it automatically runs:
+
+```bash
+cd apps/result/overlays/dev
+kustomize edit set image \
+  result=asia-south1-docker.pkg.dev/<project>/vote-docker-repo/result:<new-sha>
+```
+
+commits, and pushes to `main`. ArgoCD detects the change within minutes and rolls out the new pod.
+
+---
