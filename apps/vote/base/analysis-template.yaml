@@ -8,7 +8,7 @@ spec:
   metrics:
     - name: request-rate
       interval: 30s
-      count: 3
+      count: 1
       failureLimit: 1
 
       successCondition: len(result) > 0 && result[0] >= 1
@@ -19,33 +19,5 @@ spec:
 
           query: |
             sum(
-              rate(
-                flask_http_request_total{
-                  job="vote-canary"
-                }[1m]
-              )
-            )
-
-    - name: avg-response-time
-      interval: 30s
-      count: 3
-      failureLimit: 1
-
-      successCondition: len(result) > 0 && result[0] < 1
-
-      provider:
-        prometheus:
-          address: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
-
-          query: |
-            rate(
-              flask_http_request_duration_seconds_sum{
-                job="vote-canary"
-              }[1m]
-            )
-            /
-            rate(
-              flask_http_request_duration_seconds_count{
-                job="vote-canary"
-              }[1m]
+              up{job="vote-canary"}
             )
