@@ -38,8 +38,7 @@ This repo contains **no application source code**. It contains only Kubernetes m
 | Kustomize `base/` and `overlays/`                | Dockerfiles                   |
 | ArgoCD `Application` and `AppProject` manifests  | CI pipeline definitions       |
 | Infrastructure add-on configs (namespaces, RBAC) | Terraform infrastructure code |
-| Platform tooling manifests                       | Secrets (managed via External |
-|                                                    Secrets or Sealed Secrets)    |
+| Platform tooling manifests                       | Secrets (managed via External Secrets or Sealed Secrets)  |
 
 ---
 ## How It Fits Into the Platform
