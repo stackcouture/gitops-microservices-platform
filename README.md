@@ -283,8 +283,6 @@ Contains all Kubernetes manifests for the five voting app microservices. Each se
 | `vote`     | Python (Flask) | 80   | Web UI for casting votes             |
 | `result`   | Node.js        | 80   | Web UI for displaying results        |
 | `worker`   | C# (.NET)      | —    | Processes votes: Redis to PostgreSQL |
-| `redis`    | Redis          | 6379 | In-memory vote queue                 |
-| `db`       | PostgreSQL     | 5432 | Persistent vote result storage       |
 
 **How image tags are updated by CI:**
 
@@ -297,5 +295,59 @@ kustomize edit set image \
 ```
 
 commits, and pushes to `main`. ArgoCD detects the change within minutes and rolls out the new pod.
+
+---
+### 📁 `argocd/`
+
+Contains all ArgoCD configuration — the **App of Apps bootstrap** 
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-applications
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: vote
+            namespace: vote
+            path: apps/vote/overlays/dev
+          - name: result
+            namespace: vote
+            path: apps/result/overlays/dev
+          - name: worker
+            namespace: vote
+            path: apps/worker
+  template:
+    metadata:
+      name: '{{name}}-app'
+    spec:
+      project: apps-project
+      source:
+        repoURL: https://github.com/stackcouture/gitops-microservices-platform.git
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+```
+
+**`argocd/projects/voting-app-project.yaml`** — an `AppProject` that scopes all voting app `Applications` to:
+- This Git repository as the only allowed source
+- The `voting-app` namespace as the only allowed destination
+- A restricted set of allowed Kubernetes resource kinds (least privilege)
+
+**`argocd/applicationsets/*.yaml`** — one `Application` manifest per microservice. Each `ApplicationSet`:
+- Points to a specific `apps/<service>/overlays/dev/` path in this repo
+- Uses `syncPolicy.automated` for hands-free sync on every Git change
+- Enables `selfHeal: true` to automatically revert any manual cluster changes back to Git state
 
 ---
