@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - argo-rollouts.yaml
+  - argocd-namespace.yaml
+  - external-secrets-namespace.yaml
+  - ingress-nginx-namespace.yaml
+  - monitoring-namespace.yaml
+  - postgres-namespace.yaml
+  - redis-namespace.yaml
+  - vote-namespace.yaml
