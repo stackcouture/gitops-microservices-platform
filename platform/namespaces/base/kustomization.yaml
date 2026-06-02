@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - argo-rollouts.yaml
-  - ingress-nginx-namespace.yaml
   - postgres-namespace.yaml
   - redis-namespace.yaml
   - vote-namespace.yaml
