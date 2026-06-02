@@ -4,7 +4,7 @@ metadata:
   name: result-monitor
   namespace: monitoring
   labels:
-    release: prometheus
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:
