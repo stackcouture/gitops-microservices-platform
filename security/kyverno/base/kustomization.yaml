@@ -20,7 +20,6 @@ resources:
   - network/default-deny-network-policy.yaml
 
   - governance/labels.yaml
-  - governance/namespace-labels.yaml
   - governance/block-default-namespace.yaml
 
   - storage/storageclass.yaml
