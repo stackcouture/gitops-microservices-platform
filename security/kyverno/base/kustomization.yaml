@@ -30,3 +30,5 @@ resources:
 
   - platform/pss-restricted.yaml
   - platform/protect-critical-resources.yaml
+
+  - rbac/kyverno-reports-extra.yaml
