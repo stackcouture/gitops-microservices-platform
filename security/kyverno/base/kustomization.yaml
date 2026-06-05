@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - security/run-as-non-root.yaml
+  - security/privileged.yaml
+  - security/privilege-escalation.yaml
+  - security/seccomp.yaml
+  - security/capabilities.yaml
+
+  - resources/requests-limits.yaml
+
+  - reliability/probes.yaml
+
+  - images/registries.yaml
+  - images/latest-tag.yaml
+  - images/digest.yaml
+
+  - network/require-network-policy.yaml
+  - network/default-deny-network-policy.yaml
+
+  - governance/labels.yaml
+  - governance/namespace-labels.yaml
+  - governance/block-default-namespace.yaml
+
+  - storage/storageclass.yaml
+  - storage/pvc-size.yaml
+
+  - ingress/tls.yaml
+  - ingress/clusterissuer.yaml
+
+  - platform/pss-restricted.yaml
+  - platform/protect-critical-resources.yaml

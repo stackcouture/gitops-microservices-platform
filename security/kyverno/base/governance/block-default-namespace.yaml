@@ -1,0 +1,46 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: block-default-namespace
+  annotations:
+    policies.kyverno.io/title: Block Default Namespace
+    policies.kyverno.io/category: Governance
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Workloads
+    policies.kyverno.io/description: >
+      Prevent workloads from being created in the default namespace.
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: disallow-default-namespace
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+              - Deployment
+              - StatefulSet
+              - DaemonSet
+              - Role
+              - ReplicaSet
+              - Service 
+              - Ingress
+              - RoleBinding
+              - Rollout
+              - ServiceAccount
+              - ServiceMonitor
+              - AnalysisTemplate
+              - HorizontalPodAutoscaler
+              - PodDisruptionBudget
+              - PrometheusRule
+
+      validate:
+        message: "Workloads must not be deployed into the default namespace."
+        deny:
+          conditions:
+            all:
+            - key: "{{ request.namespace }}"
+              operator: Equals
+              value: default
