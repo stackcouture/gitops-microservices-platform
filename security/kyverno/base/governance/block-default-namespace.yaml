@@ -35,6 +35,9 @@ spec:
               - HorizontalPodAutoscaler
               - PodDisruptionBudget
               - PrometheusRule
+              - Ingress
+              - Gateway
+              - ExternalSecret
 
       validate:
         message: "Workloads must not be deployed into the default namespace."
