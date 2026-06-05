@@ -4,3 +4,4 @@ metadata:
   name: postgres
   labels:
     environment: dev
+    namespace-type: database

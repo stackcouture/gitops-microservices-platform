@@ -1,0 +1,34 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-image-tag
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: require-explicit-image-tag
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaceSelector:
+              matchExpressions:
+              - key: namespace-type
+                operator: In
+                values:
+                  - application
+                  - cache
+                  - database
+
+      validate:
+        message: "Images must use an explicit version tag and must not use 'latest'."
+        foreach:
+        - list: "request.object.spec.containers"
+          deny:
+            conditions:
+              any:
+              - key: "{{ element.image }}"
+                operator: Equals
+                value: "*:latest"

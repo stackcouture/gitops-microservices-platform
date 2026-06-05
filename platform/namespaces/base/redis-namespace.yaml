@@ -4,3 +4,4 @@ metadata:
   name: redis
   labels:
     environment: dev
+    namespace-type: cache

@@ -4,3 +4,4 @@ metadata:
   name: vote
   labels:
     environment: dev
+    namespace-type: application
