@@ -1,0 +1,38 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-environment-label
+spec:
+  validationFailureAction: Enforce
+
+  rules:
+    - name: allowed-environments
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+              - Deployment
+              - StatefulSet
+              - DaemonSet
+              - Role
+              - ReplicaSet
+              - Service 
+              - Ingress
+              - RoleBinding
+              - Rollout
+              - ServiceAccount
+              - ServiceMonitor
+              - AnalysisTemplate
+              - HorizontalPodAutoscaler
+              - PodDisruptionBudget
+              - PrometheusRule
+              - Ingress
+              - ExternalSecret
+
+      validate:
+        message: "environment must be dev, stage, or prod."
+        pattern:
+          metadata:
+            labels:
+              environment: "dev|stage|prod"
