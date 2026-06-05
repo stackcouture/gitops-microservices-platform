@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: db
+    environment: dev
   name: db-headless
   namespace: postgres
 spec:

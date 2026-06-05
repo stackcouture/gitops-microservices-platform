@@ -3,6 +3,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-ingress-nginx-to-vote
   namespace: vote
+  labels:
+    environment: dev
 spec:
   podSelector:
     matchLabels:

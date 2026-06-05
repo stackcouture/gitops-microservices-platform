@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: vote
+    environment: dev
   name: vote-stable
   namespace: vote
 spec:

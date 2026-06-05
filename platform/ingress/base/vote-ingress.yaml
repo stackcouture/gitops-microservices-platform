@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: vote-ingress
   namespace: vote
+  labels:
+    environment: dev
 spec:
   ingressClassName: nginx
   rules:

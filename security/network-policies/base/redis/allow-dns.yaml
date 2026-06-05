@@ -3,6 +3,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-dns
   namespace: redis
+  labels:
+    environment: dev
 spec:
   podSelector: {}
   policyTypes:

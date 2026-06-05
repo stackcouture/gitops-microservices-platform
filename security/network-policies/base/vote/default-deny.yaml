@@ -3,10 +3,10 @@ kind: NetworkPolicy
 metadata:
   name: default-deny
   namespace: vote
-
+  labels:
+    environment: dev
 spec:
   podSelector: {}
-
   policyTypes:
   - Ingress
   - Egress

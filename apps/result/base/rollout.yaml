@@ -6,6 +6,7 @@ metadata:
   namespace: vote
   labels:
     app: result
+    environment: dev
 
 spec:
   replicas: 1

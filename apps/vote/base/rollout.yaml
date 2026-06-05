@@ -3,6 +3,8 @@ kind: Rollout
 metadata:
   name: vote
   namespace: vote
+  labels:
+    environment: dev
 spec:
   replicas: 3
   revisionHistoryLimit: 2

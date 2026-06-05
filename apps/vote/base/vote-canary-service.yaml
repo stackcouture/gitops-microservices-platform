@@ -3,8 +3,10 @@ kind: Service
 metadata:
   labels:
     app: vote
+    environment: dev
   name: vote-canary
   namespace: vote
+    
 spec:
   selector:
     app: vote

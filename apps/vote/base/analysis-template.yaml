@@ -3,6 +3,8 @@ kind: AnalysisTemplate
 metadata:
   name: vote-traffic-check
   namespace: vote
+  labels:
+    environment: dev
 
 spec:
   metrics:

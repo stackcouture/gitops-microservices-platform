@@ -1,9 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-worker-to-redis
+  name: allow-worker-to-postgres
   namespace: vote
-
+  labels:
+    environment: dev
 spec:
   podSelector:
     matchLabels:
@@ -16,11 +17,11 @@ spec:
   - to:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: redis
+          kubernetes.io/metadata.name: postgres
       podSelector:
         matchLabels:
-          app: redis
+          app: db
 
     ports:
     - protocol: TCP
-      port: 6379
+      port: 5432

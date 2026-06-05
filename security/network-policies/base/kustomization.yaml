@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - monitoring/allow-prometheus-to-result.yaml
+  - monitoring/allow-prometheus-to-vote.yaml
+
+  - postgres/allow-result-to-db.yaml
+  - postgres/allow-vote-namespace.yaml
+  - postgres/default-deny.yaml
+
+  - redis/allow-dns.yaml
+  - redis/allow-vote-namespace.yaml
+  - redis/default-deny.yaml
+
+  - vote/allow-dns.yaml
+  - vote/allow-external-to-result.yaml
+  - vote/allow-external-to-vote.yaml
+  - vote/allow-gateway-result.yaml
+  - vote/allow-ingress-nginx-to-result.yaml
+  - vote/allow-ingress-nginx-to-vote.yaml
+  - vote/allow-result-to-postgres.yaml
+  - vote/allow-vote-to-redis.yaml
+  - vote/allow-worker-to-postgres.yaml
+  - vote/allow-worker-to-redis.yaml
+  - vote/default-deny.yaml
+

@@ -1,26 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-result-to-db
-  namespace: postgres
-
+  name: allow-result-to-postgres
+  namespace: vote
+  labels:
+    environment: dev
 spec:
   podSelector:
     matchLabels:
-      app: db
+      app: result
 
   policyTypes:
-  - Ingress
+  - Egress
 
-  ingress:
-  - from:
+  egress:
+  - to:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: vote
-
+          kubernetes.io/metadata.name: postgres
       podSelector:
         matchLabels:
-          app: result
+          app: db
 
     ports:
     - protocol: TCP

@@ -3,7 +3,8 @@ kind: NetworkPolicy
 metadata:
   name: allow-dns
   namespace: vote
-
+  labels:
+    environment: dev
 spec:
   podSelector: {}
 

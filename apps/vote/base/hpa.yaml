@@ -3,6 +3,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: vote-hpa
   namespace: vote
+  labels:
+    environment: dev
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1

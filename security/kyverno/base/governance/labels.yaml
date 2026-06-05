@@ -14,21 +14,16 @@ spec:
               - Pod
               - Deployment
               - StatefulSet
-              - DaemonSet
-              - Role
-              - ReplicaSet
               - Service 
               - Ingress
-              - RoleBinding
-              - Rollout
               - ServiceAccount
               - ServiceMonitor
               - AnalysisTemplate
               - HorizontalPodAutoscaler
-              - PodDisruptionBudget
               - PrometheusRule
               - Ingress
               - ExternalSecret
+              - Namespace
 
       validate:
         message: "environment must be dev, stage, or prod."

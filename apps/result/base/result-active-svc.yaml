@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: result
+    environment: dev
   name: result-active-svc 
   namespace: vote
 spec:

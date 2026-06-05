@@ -19,6 +19,8 @@ kind: RoleBinding
 metadata:
   name: vote-reader-binding
   namespace: vote
+  labels:
+    environment: dev
 subjects:
   - kind: ServiceAccount
     name: vote-sa

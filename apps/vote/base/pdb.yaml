@@ -3,6 +3,8 @@ kind: PodDisruptionBudget
 metadata:
   name: vote-pdb
   namespace: vote
+  labels:
+    environment: dev
 spec:
   minAvailable: 2
   selector:

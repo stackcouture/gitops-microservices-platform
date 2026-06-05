@@ -1,25 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-worker-to-postgres
-  namespace: vote
-
+  name: allow-vote-namespace
+  namespace: postgres
+  labels:
+    environment: dev
 spec:
   podSelector:
     matchLabels:
-      app: worker
+      app: db
 
   policyTypes:
-  - Egress
+  - Ingress
 
-  egress:
-  - to:
+  ingress:
+  - from:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: postgres
+          kubernetes.io/metadata.name: vote
+
       podSelector:
         matchLabels:
-          app: db
+          app: worker
 
     ports:
     - protocol: TCP

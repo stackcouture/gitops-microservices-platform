@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: worker
+    environment: dev
   name: worker
   namespace: vote
 spec:

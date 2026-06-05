@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: prometheus-ingress
   namespace: monitoring
+  labels:
+    environment: dev
 spec:
   ingressClassName: nginx
   rules:

@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: db
   namespace: vote
+  labels:
+    environment: dev
 spec:
   type: ExternalName
   externalName: db.postgres.svc.cluster.local
