@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-stackcouture
+  namespace: cert-manager
+
+spec:
+  secretName: wildcard-stackcouture-tls
+
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+  dnsNames:
+    - stackcouture.online
+    - "*.stackcouture.online"
