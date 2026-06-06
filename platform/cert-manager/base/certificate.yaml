@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-stackcouture
-  namespace: cert-manager
+  namespace: kubecost
 
 spec:
   secretName: wildcard-stackcouture-tls
@@ -12,5 +12,5 @@ spec:
     kind: ClusterIssuer
 
   dnsNames:
-    - stackcouture.online
-    - "*.stackcouture.online"
+  - stackcouture.online
+  - "*.stackcouture.online"
