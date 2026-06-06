@@ -7,8 +7,14 @@ metadata:
     environment: dev
 spec:
   ingressClassName: nginx
+
+  tls:
+  - hosts:
+    - kubecost.stackcouture.online
+    secretName: wildcard-stackcouture-tls
+
   rules:
-    - host: kubecost.local
+    - host: kubecost.stackcouture.online
       http:
         paths:
           - path: /
