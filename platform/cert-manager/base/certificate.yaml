@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-stackcouture
-  namespace: kubecost
+  namespace: nginx-gateway
 
 spec:
   secretName: wildcard-stackcouture-tls
