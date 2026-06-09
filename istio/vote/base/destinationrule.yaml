@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: vote-dr
+  namespace: vote
+spec:
+  host: vote.vote.svc.cluster.local
+
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+  subsets:
+  - name: stable
+    labels:
+      app: vote
+
+  - name: canary
+    labels:
+      app: vote
