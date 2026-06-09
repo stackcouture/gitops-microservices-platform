@@ -5,7 +5,14 @@ namespace: vote
 
 resources:
   - namespace.yaml
-  - authorizationpolicy.yaml
-  - destinationrule.yaml
-  - peerauthentication.yaml
-  - virtualservice.yaml
+  # - authorizationpolicy.yaml
+  # - destinationrule.yaml
+  # - peerauthentication.yaml
+  # - virtualservice.yaml
+  - deployment.yaml
+  - postgres-alias.yaml
+  - rbac.yaml
+  - redis-alias.yaml
+  - serviceaccount.yaml
+  - vote-canary-service.yaml
+  - vote-stable-service.yaml

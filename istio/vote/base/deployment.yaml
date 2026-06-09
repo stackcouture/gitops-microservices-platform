@@ -1,0 +1,127 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Deployment
+metadata:
+  name: vote
+  namespace: vote
+  labels:
+    environment: dev
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+  progressDeadlineSeconds: 600
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:      
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: vote
+  template:
+    metadata:
+      labels:
+        app: vote
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: vote-sa
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 2000
+
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: vote
+          image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/vote
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - containerPort: 8080
+              name: http
+
+          env:
+            - name: PORT
+              value: "8080"
+
+            - name: REDIS_HOST
+              value: redis
+
+            - name: REDIS_PORT
+              value: "6379"
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: 8080
+
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+
+            capabilities:
+              drop:
+                - ALL
+
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - vote
+
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+
+          labelSelector:
+            matchLabels:
+              app: vote
+      
+      volumes:
+        - name: tmp
+          emptyDir: {}
+  
