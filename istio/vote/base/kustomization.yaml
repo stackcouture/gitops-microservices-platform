@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: vote
 
 resources:
+  - namespace.yaml
   - authorizationpolicy.yaml
   - destinationrule.yaml
   - peerauthentication.yaml
