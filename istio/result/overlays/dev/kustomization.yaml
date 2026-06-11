@@ -5,3 +5,8 @@ namespace: vote
 
 resources:
 - ../../base
+
+images:
+- name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
+  newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
+  newTag: 938e8d8c108773a8175fb4ad0104c109ac142ff4
