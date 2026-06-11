@@ -16,3 +16,4 @@ resources:
   - serviceaccount.yaml
   - vote-canary-service.yaml
   - vote-stable-service.yaml
+  - service.yaml
