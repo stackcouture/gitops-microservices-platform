@@ -8,3 +8,4 @@ resources:
   - grafanahttproute.yaml
   - votehttproute.yaml
   - resulthttproute.yaml
+  - preview-result-httproute.yaml
