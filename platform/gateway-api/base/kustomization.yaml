@@ -6,3 +6,5 @@ resources:
   - gateway.yaml
   - prometheushttproute.yaml
   - grafanahttproute.yaml
+  - votehttproute.yaml
+  - resulthttproute.yaml
