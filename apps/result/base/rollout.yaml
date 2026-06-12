@@ -18,7 +18,7 @@ spec:
       activeService: result-active-svc 
       previewService: result-preview-svc 
       autoPromotionEnabled: false
-      scaleDownDelaySeconds: 300
+      scaleDownDelaySeconds: 120
   selector:
     matchLabels:
       app: result
