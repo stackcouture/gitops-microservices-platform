@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: gateway-api
+  namespace: argocd
+spec:
+  description: Gateway API platform resources
+
+  sourceRepos:
+  - '*'
+
+  destinations:
+  - namespace: nginx-gateway
+    server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+
+  namespaceResourceWhitelist:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+
+  - group: cert-manager.io
+    kind: Certificate
+
+  - group: ""
+    kind: Secret
