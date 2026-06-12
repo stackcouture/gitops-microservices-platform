@@ -6,4 +6,3 @@ resources:
   - apps-project.yaml
   - infra-project.yaml
   - platform-project.yaml
-  - gateway-api-project.yaml
