@@ -5,4 +5,4 @@ namespace: argocd
 resources:
   - apps-appset.yaml
   - infra-appset.yaml
-  - platform-appset.yaml
+  #- platform-appset.yaml
