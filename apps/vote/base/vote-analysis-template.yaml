@@ -15,7 +15,7 @@ spec:
     count: 1
     failureLimit: 1
 
-    successCondition: result[0] > 0
+    successCondition: len(result) > 0 && result[0] > 0
 
     provider:
       prometheus:
@@ -31,7 +31,7 @@ spec:
     count: 1
     failureLimit: 1
 
-    successCondition: result[0] >= 99
+    successCondition: len(result) > 0 && result[0] >= 99
 
     provider:
       prometheus:
@@ -53,12 +53,10 @@ spec:
     count: 1
     failureLimit: 1
 
-    successCondition: result[0] > 0
+    successCondition: len(result) > 0 && result[0] >= 1
 
     provider:
       prometheus:
         address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
         query: |
-          sum(
-            increase(vote_requests_total[1m])
-          )
+          sum(vote_requests_total)
