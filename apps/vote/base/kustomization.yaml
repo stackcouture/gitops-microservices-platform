@@ -16,3 +16,4 @@ resources:
   - vote-alert-rules.yaml
   - vote-canary-service.yaml
   - vote-stable-service.yaml
+  - votebusinesscheckAnalysis.yaml
