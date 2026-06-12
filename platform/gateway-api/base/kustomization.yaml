@@ -10,3 +10,4 @@ resources:
   - resulthttproute.yaml
   - preview-result-httproute.yaml
   - argo-rollouts-route.yaml
+  - kube-cost-route.yaml

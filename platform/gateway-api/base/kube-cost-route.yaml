@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kubecost-route
+  namespace: kubecost
+  labels:
+    environment: dev
+spec:
+  parentRefs:
+  - name: platform-gateway
+    namespace: nginx-gateway
+
+  hostnames:
+  - kubecost.stackcouture.online
+
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+    backendRefs:
+    - name: kubecost-cost-analyzer
+      port: 9090
