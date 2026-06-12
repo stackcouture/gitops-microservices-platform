@@ -20,5 +20,5 @@ spec:
         value: /
 
     backendRefs:
-    - name: result-svc
+    - name: result-stable-svc
       port: 80

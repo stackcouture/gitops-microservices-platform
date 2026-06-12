@@ -20,5 +20,5 @@ spec:
         value: /
 
     backendRefs:
-    - name: vote-svc
+    - name: vote-stable
       port: 80
