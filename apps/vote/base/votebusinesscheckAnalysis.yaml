@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: vote-business-check
+  namespace: vote
+
+spec:
+  metrics:
+  - name: vote-rate
+    interval: 30s
+    count: 1
+    failureLimit: 1
+
+    successCondition: result[0] > 0
+
+    provider:
+      prometheus:
+        address: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+
+        query: |
+          sum(
+            increase(vote_requests_total[1m])
+          )

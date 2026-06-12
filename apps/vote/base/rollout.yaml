@@ -22,13 +22,15 @@ spec:
             duration: 30s
         - analysis:
             templates:
-              - templateName: vote-traffic-check
+              - templateName: vote-business-check
+
         - setWeight: 50
         - pause:
             duration: 30s
         - analysis:
             templates:
-              - templateName: vote-traffic-check
+              - templateName: vote-business-check
+
         - setWeight: 100
   selector:
     matchLabels:
