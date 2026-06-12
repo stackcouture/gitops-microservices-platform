@@ -9,3 +9,4 @@ resources:
   - votehttproute.yaml
   - resulthttproute.yaml
   - preview-result-httproute.yaml
+  - argo-rollouts-route.yaml
