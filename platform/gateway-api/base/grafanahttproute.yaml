@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    environment: dev
+spec:
+  parentRefs:
+  - name: platform-gateway
+    namespace: nginx-gateway
+
+  hostnames:
+  - grafana.stackcouture.online
+
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+    backendRefs:
+    - name: kube-prometheus-stack-grafana
+      port: 80

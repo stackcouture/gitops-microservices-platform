@@ -5,3 +5,4 @@ resources:
   - argocdhttproute.yaml
   - gateway.yaml
   - prometheushttproute.yaml
+  - grafanahttproute.yaml
