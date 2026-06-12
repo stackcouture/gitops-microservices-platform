@@ -6,7 +6,7 @@ resources:
  # - service.yaml
   - rollout.yaml
   - hpa.yaml
-  - analysis-template.yaml
+  # - analysis-template.yaml
   - pdb.yaml 
   - postgres-alias.yaml 
   - rbac.yaml
@@ -16,4 +16,5 @@ resources:
   - vote-alert-rules.yaml
   - vote-canary-service.yaml
   - vote-stable-service.yaml
-  - votebusinesscheckAnalysis.yaml
+  #- votebusinesscheckAnalysis.yaml
+  - vote-analysis-template.yaml

@@ -22,14 +22,14 @@ spec:
             duration: 30s
         - analysis:
             templates:
-              - templateName: vote-business-check
+              - templateName: vote-analysis
 
         - setWeight: 50
         - pause:
             duration: 30s
         - analysis:
             templates:
-              - templateName: vote-business-check
+              - templateName: vote-analysis
 
         - setWeight: 100
   selector:
