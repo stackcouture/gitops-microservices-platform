@@ -5,7 +5,7 @@ metadata:
   namespace: argo-rollouts
 spec:
   parentRefs:
-  - name: external-gateway
+  - name: platform-gateway
     namespace: nginx-gateway
 
   hostnames:
