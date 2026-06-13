@@ -10,7 +10,7 @@ spec:
   pollingInterval: 5
   cooldownPeriod: 30
 
-  minReplicaCount: 0
+  minReplicaCount: 1
   maxReplicaCount: 10
 
   fallback:
@@ -22,4 +22,4 @@ spec:
       metadata:
         address: redis.vote.svc.cluster.local:6379
         listName: votes
-        listLength: "2"
+        listLength: "25"
