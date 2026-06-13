@@ -4,3 +4,4 @@ namespace: vote
 
 resources:
   - deployment.yaml
+  - scaledobject-worker.yaml
