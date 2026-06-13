@@ -38,4 +38,4 @@ spec:
       metadata:
         address: redis.vote.svc.cluster.local:6379
         listName: votes
-        listLength: "50"
+        listLength: "5"
