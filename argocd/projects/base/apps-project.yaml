@@ -66,3 +66,6 @@ spec:
     
     - group: argoproj.io
       kind: AnalysisTemplate
+
+    - group: keda.sh
+      kind: ScaledObject
