@@ -40,6 +40,7 @@ spec:
     metadata:
       labels:
         app: vote
+        environment: dev
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
