@@ -1,0 +1,35 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-repository
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: allow-only-vote-repository
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+            namespaceSelector:
+              matchExpressions:
+              - key: namespace-type
+                operator: In
+                values:
+                  - application
+                  - cache
+                  - database
+
+      validate:
+        message: "Images must come from the approved Artifact Registry repository."
+
+        foreach:
+        - list: "request.object.spec.containers"
+          deny:
+            conditions:
+              all:
+              - key: "{{ starts_with(element.image, 'asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/') }}"
+                operator: Equals
+                value: false
