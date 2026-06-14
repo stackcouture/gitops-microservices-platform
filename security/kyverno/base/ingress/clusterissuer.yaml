@@ -8,7 +8,6 @@ spec:
 
   rules:
 
-  # Validate ClusterIssuer configuration
   - name: validate-letsencrypt-prod-clusterissuer
     match:
       any:
@@ -36,7 +35,6 @@ spec:
                     name: cloudflare-api-token-secret
                     key: api-token
 
-  # Block updates after creation
   - name: prevent-clusterissuer-modification
     match:
       any:
@@ -51,28 +49,5 @@ spec:
         value: UPDATE
 
     validate:
-      message: "ClusterIssuer modifications are not allowed. Manage through GitOps."
+      message: "ClusterIssuer modifications are not allowed."
       deny: {}
-
-  # Block deletion except by cluster-admins
-  - name: protect-clusterissuer-deletion
-    match:
-      any:
-      - resources:
-          kinds:
-          - ClusterIssuer
-
-    preconditions:
-      all:
-      - key: "{{ request.operation }}"
-        operator: Equals
-        value: DELETE
-
-    validate:
-      message: "ClusterIssuer deletion is restricted."
-      deny:
-        conditions:
-          all:
-          - key: "{{ request.userInfo.username }}"
-            operator: NotEquals
-            value: "system:admin"
