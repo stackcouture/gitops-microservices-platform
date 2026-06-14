@@ -1,0 +1,43 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: certificate-security
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+
+  - name: require-letsencrypt-prod
+    match:
+      any:
+      - resources:
+          kinds:
+          - Certificate
+
+    validate:
+      message: "Only letsencrypt-prod ClusterIssuer is allowed."
+      pattern:
+        spec:
+          issuerRef:
+            kind: ClusterIssuer
+            name: letsencrypt-prod
+
+  - name: approved-domains
+    match:
+      any:
+      - resources:
+          kinds:
+          - Certificate
+
+    validate:
+      message: "Certificates may only be issued for stackcouture.online domains."
+
+      foreach:
+      - list: "request.object.spec.dnsNames"
+        deny:
+          conditions:
+            all:
+            - key: "{{ regex_match('^(\\*\\.)?([a-zA-Z0-9-]+\\.)*stackcouture\\.online$', element) }}"
+              operator: Equals
+              value: false
