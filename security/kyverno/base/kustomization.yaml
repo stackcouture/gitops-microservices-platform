@@ -31,4 +31,4 @@ resources:
   - platform/protect-critical-resources.yaml
 
   - rbac/kyverno-reports-extra.yaml
-  - kyverno-cert-manager-reports.yaml
+  - rbac/kyverno-cert-manager-reports.yaml
