@@ -16,6 +16,40 @@ spec:
       labels:
         app: worker
     spec:
+      serviceAccountName: worker-sa
+      automountServiceAccountToken: false
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+
       containers:
       - image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker:v1
         name: worker
+        imagePullPolicy: IfNotPresent
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+
+      volumes:
+      - name: tmp
+        emptyDir: {}
