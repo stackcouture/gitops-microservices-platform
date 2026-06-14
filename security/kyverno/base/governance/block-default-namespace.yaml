@@ -19,7 +19,6 @@ spec:
         any:
         - resources:
             kinds:
-              - Pod
               - Deployment
               - StatefulSet
               - DaemonSet

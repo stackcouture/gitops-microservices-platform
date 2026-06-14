@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: generate-default-deny-networkpolicy
 spec:
-  background: true
+  background: false
 
   rules:
   - name: create-default-deny-networkpolicy

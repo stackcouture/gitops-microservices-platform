@@ -12,7 +12,8 @@ spec:
         any:
         - resources:
             kinds:
-              - Pod
+              - Deployment
+              - StatefulSet
             namespaceSelector:
               matchExpressions:
               - key: namespace-type
