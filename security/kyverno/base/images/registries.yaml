@@ -19,8 +19,6 @@ spec:
                 operator: In
                 values:
                   - application
-                  - cache
-                  - database
 
       validate:
         message: "Images must come from the approved Artifact Registry repository."
