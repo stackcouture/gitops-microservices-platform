@@ -15,7 +15,6 @@ resources:
   - images/registries.yaml
   - images/latest-tag.yaml
 
-  - network/require-network-policy.yaml
   - network/default-deny-network-policy.yaml
 
   - governance/labels.yaml

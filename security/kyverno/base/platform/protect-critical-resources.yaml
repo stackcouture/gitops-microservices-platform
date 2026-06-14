@@ -1,0 +1,108 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: protect-critical-resources
+spec:
+  validationFailureAction: Enforce
+  background: false
+
+  rules:
+
+  # Protect ClusterIssuer deletion
+  - name: protect-clusterissuer
+    match:
+      any:
+      - resources:
+          kinds:
+          - ClusterIssuer
+
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: In
+        value:
+        - DELETE
+
+    validate:
+      message: "Deletion of ClusterIssuers is prohibited."
+      deny: {}
+
+  # Protect Kyverno policies
+  - name: protect-clusterpolicies
+    match:
+      any:
+      - resources:
+          kinds:
+          - ClusterPolicy
+
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: In
+        value:
+        - DELETE
+
+    validate:
+      message: "Deletion of ClusterPolicies is prohibited."
+      deny: {}
+
+  # Protect Gateways
+  - name: protect-gateways
+    match:
+      any:
+      - resources:
+          kinds:
+          - Gateway
+
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: In
+        value:
+        - DELETE
+
+    validate:
+      message: "Deletion of Gateway resources is prohibited."
+      deny: {}
+
+  # Protect External Secrets
+  - name: protect-external-secrets
+    match:
+      any:
+      - resources:
+          kinds:
+          - ExternalSecret
+
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: In
+        value:
+        - DELETE
+
+    validate:
+      message: "Deletion of ExternalSecrets is prohibited."
+      deny: {}
+
+  # Protect critical namespaces
+  - name: protect-critical-namespaces
+    match:
+      any:
+      - resources:
+          kinds:
+          - Namespace
+            names:
+            - argocd
+            - kyverno
+            - cert-manager
+            - nginx-gateway
+
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: Equals
+        value: DELETE
+
+    validate:
+      message: "Critical namespaces cannot be deleted."
+      deny: {}
