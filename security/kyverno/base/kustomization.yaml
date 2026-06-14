@@ -31,3 +31,4 @@ resources:
 
   - rbac/kyverno-reports-extra.yaml
   - rbac/kyverno-cert-manager-reports.yaml
+  - rbac/kyverno-gateway-reports.yaml
