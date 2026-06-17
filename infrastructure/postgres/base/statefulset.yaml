@@ -24,7 +24,6 @@ spec:
       terminationGracePeriodSeconds: 60
 
       securityContext:
-        runAsNonRoot: true
         fsGroup: 999
 
       tolerations:
@@ -38,18 +37,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: pool
-                operator: In
-                values:
-                - data
               - key: workload
                 operator: In
                 values:
                 - data
-              - key: env
-                operator: In
-                values:
-                - dev
 
       containers:
       - name: postgres
@@ -87,7 +78,9 @@ spec:
             - pg_isready -U postgres -d postgres
           initialDelaySeconds: 30
           periodSeconds: 10
-        
+          timeoutSeconds: 5
+          failureThreshold: 6
+
         readinessProbe:
           exec:
             command:
@@ -96,6 +89,17 @@ spec:
             - pg_isready -U postgres -d postgres
           initialDelaySeconds: 10
           periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        
+        startupProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -U postgres -d postgres
+          failureThreshold: 30
+          periodSeconds: 10
         
         securityContext:
           allowPrivilegeEscalation: false
