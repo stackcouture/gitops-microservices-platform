@@ -3,33 +3,113 @@ kind: StatefulSet
 metadata:
   name: redis
   namespace: redis
+  labels:
+    environment: dev
 spec:
   serviceName: redis
   replicas: 1
+
   selector:
     matchLabels:
       app: redis
+
   template:
     metadata:
       labels:
         app: redis
+
     spec:
+      serviceAccountName: redis-sa
+      automountServiceAccountToken: false
+
+      terminationGracePeriodSeconds: 60
+
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+
+      tolerations:
+      - key: "workload"
+        operator: "Equal"
+        value: "data"
+        effect: "NoSchedule"
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: workload
+                operator: In
+                values:
+                - data
+
       containers:
-        - name: redis
-          image: redis:7-alpine
-          ports:
-            - containerPort: 6379
-              name: redis
-          volumeMounts:
-            - name: redis-data
-              mountPath: /data
-  volumeClaimTemplates:
-    - metadata:
-        name: redis-data
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        storageClassName: premium-rwo-v2
+      - name: redis
+        image: redis:7-alpine
+
+        args:
+        - redis-server
+        - --appendonly
+        - "yes"
+
+        ports:
+        - containerPort: 6379
+          name: redis
+
         resources:
           requests:
-            storage: 5Gi
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+        startupProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          failureThreshold: 30
+          periodSeconds: 10
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: premium-rwo-v2
+      resources:
+        requests:
+          storage: 5Gi
