@@ -49,6 +49,12 @@ spec:
       serviceAccountName: vote-sa
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
+
+      tolerations:
+      - key: workload
+        operator: Equal
+        value: app
+        effect: NoSchedule
       
       securityContext:
         runAsNonRoot: true
@@ -119,18 +125,27 @@ spec:
               mountPath: /tmp
       
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - app
+                  - key: pool
+                    operator: In
+                    values:
+                      - app
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
               podAffinityTerm:
                 topologyKey: kubernetes.io/hostname
-
                 labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - vote
+                  matchLabels:
+                    app: vote
+
 
       topologySpreadConstraints:
         - maxSkew: 1
