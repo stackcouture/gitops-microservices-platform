@@ -7,3 +7,7 @@ resources:
   - service-headless.yaml
   - service.yaml
   - statefulset.yaml
+  - serviceaccount.yaml
+  - pdb.yaml
+  - postgres-exporter.yaml
+  - servicemonitor.yaml

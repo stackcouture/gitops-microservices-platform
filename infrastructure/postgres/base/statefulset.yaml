@@ -8,33 +8,106 @@ metadata:
 spec:
   serviceName: db
   replicas: 1
+
   selector:
     matchLabels:
       app: db
+
   template:
     metadata:
       labels:
         app: db
     spec:
+      serviceAccountName: postgres-sa
+      automountServiceAccountToken: false
+
+      terminationGracePeriodSeconds: 60
+
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 999
+
+      tolerations:
+      - key: "workload"
+        operator: "Equal"
+        value: "data"
+        effect: "NoSchedule"
+      
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: pool
+                operator: In
+                values:
+                - data
+              - key: workload
+                operator: In
+                values:
+                - data
+              - key: env
+                operator: In
+                values:
+                - dev
+
       containers:
       - name: postgres
         image: postgres:15-alpine
         env:
         - name: POSTGRES_USER
           value: postgres
+
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: POSTGRES_PASSWORD
+
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+
         ports:
         - containerPort: 5432
           name: postgres
+
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+        
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -U postgres -d postgres
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - pg_isready -U postgres -d postgres
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+
         volumeMounts:
         - name: db-data
           mountPath: /var/lib/postgresql/data
+
   volumeClaimTemplates:
   - metadata:
       name: db-data
