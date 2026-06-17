@@ -12,4 +12,5 @@ resources:
   - httproutes/argo-rollouts-route.yaml
   - httproutes/kube-cost-route.yaml
   - httproutes/postgres-exporter-route.yaml
+  - httproutes/redis-exporter-route.yaml
   - certificate.yaml
