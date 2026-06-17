@@ -30,7 +30,13 @@ spec:
     spec:
       serviceAccountName: result-sa
       automountServiceAccountToken: false
-      terminationGracePeriodSeconds: 300
+      terminationGracePeriodSeconds: 60
+
+      tolerations:
+      - key: workload
+        operator: Equal
+        value: app
+        effect: NoSchedule
 
       securityContext:
         runAsNonRoot: true
@@ -91,17 +97,27 @@ spec:
               mountPath: /tmp
       
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - app
+                  - key: pool
+                    operator: In
+                    values:
+                      - app
+
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
               podAffinityTerm:
                 topologyKey: kubernetes.io/hostname
                 labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - result
+                  matchLabels:
+                    app: result
 
       topologySpreadConstraints:
         - maxSkew: 1
