@@ -19,6 +19,12 @@ spec:
       serviceAccountName: worker-sa
       automountServiceAccountToken: false
 
+      tolerations:
+      - key: workload
+        operator: Equal
+        value: app
+        effect: NoSchedule
+
       securityContext:
         runAsNonRoot: true
         runAsUser: 10001
@@ -50,6 +56,39 @@ spec:
         - name: tmp
           mountPath: /tmp
 
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload
+                    operator: In
+                    values:
+                      - app
+                  - key: pool
+                    operator: In
+                    values:
+                      - app
+
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: worker
+
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: worker
+      
+
       volumes:
       - name: tmp
         emptyDir: {}
+    
