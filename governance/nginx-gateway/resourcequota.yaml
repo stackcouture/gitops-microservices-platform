@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: nginx-gateway-quota
+  namespace: nginx-gateway
+spec:
+  hard:
+    requests.cpu: "500m"
+    limits.cpu: "1"
+
+    requests.memory: 1Gi
+    limits.memory: 2Gi
+
+    pods: "20"
