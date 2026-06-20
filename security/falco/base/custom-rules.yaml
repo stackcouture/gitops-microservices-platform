@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: falco-custom-rules
+  namespace: falco
+data:
+  custom-rules.yaml: |
+    - rule: Shell Spawned In Container
+      desc: Detect interactive shell access
+      condition: >
+        spawned_process and
+        proc.name in (bash,sh)
+      output: >
+        Shell spawned in container
+        (pod=%k8s.pod.name ns=%k8s.ns.name)
+      priority: WARNING
+
+    - rule: Sensitive File Access
+      desc: Detect passwd/shadow access
+      condition: >
+        open_read and
+        fd.name in (/etc/passwd,/etc/shadow)
+      output: >
+        Sensitive file accessed
+        (pod=%k8s.pod.name ns=%k8s.ns.name)
+      priority: WARNING
+
+    - rule: Network Tool Execution
+      desc: Detect curl wget nc
+      condition: >
+        spawned_process and
+        proc.name in (curl,wget,nc)
+      output: >
+        Network tool executed
+        (pod=%k8s.pod.name ns=%k8s.ns.name)
+      priority: WARNING
+
+    - rule: Package Manager Execution
+      desc: Detect package installs
+      condition: >
+        spawned_process and
+        proc.name in (apt,apt-get,yum,dnf,apk)
+      output: >
+        Package manager executed
+        (pod=%k8s.pod.name ns=%k8s.ns.name)
+      priority: CRITICAL
+
+    - rule: Service Account Token Access
+      desc: Detect service account token access
+      condition: >
+        open_read and
+        fd.name contains "/serviceaccount/token"
+      output: >
+        Service account token accessed
+        (pod=%k8s.pod.name ns=%k8s.ns.name)
+      priority: CRITICAL
