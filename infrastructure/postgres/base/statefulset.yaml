@@ -24,9 +24,13 @@ spec:
       terminationGracePeriodSeconds: 60
 
       securityContext:
+        runAsNonRoot: true
         runAsUser: 999
         runAsGroup: 999
         fsGroup: 999
+
+        seccompProfile:
+          type: RuntimeDefault
 
       tolerations:
       - key: "workload"
@@ -104,6 +108,7 @@ spec:
           periodSeconds: 10
         
         securityContext:
+          runAsNonRoot: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           capabilities:
