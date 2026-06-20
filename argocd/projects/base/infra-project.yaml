@@ -53,3 +53,6 @@ spec:
 
     - group: networking.k8s.io
       kind: NetworkPolicy
+    
+    - group: ''
+      kind: ServiceAccount
