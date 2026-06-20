@@ -11,3 +11,4 @@ resources:
   - cert-manager
   - external-secrets
   - nginx-gateway
+  - falco
