@@ -33,9 +33,22 @@ spec:
           type: RuntimeDefault
 
       containers:
-      - image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker:v1
+      - image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker:ec28f9e67183b0bb535fd23af4cebc6c3234ede8
         name: worker
         imagePullPolicy: IfNotPresent
+      
+        env:
+        - name: DB_HOST
+          value: db.postgres.svc.cluster.local
+
+        - name: POSTGRES_USER
+          value: postgres
+
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
 
         securityContext:
           allowPrivilegeEscalation: false
