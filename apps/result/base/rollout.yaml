@@ -27,6 +27,9 @@ spec:
       labels:
         app: result
 
+      annotations:
+        reloader.stakater.com/auto: "true"
+
     spec:
       serviceAccountName: result-sa
       automountServiceAccountToken: false
