@@ -2,8 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - httproutes/argocdhttproute.yaml
   - gateway.yaml
+  - certificate.yaml
+  - httproutes/argocdhttproute.yaml
   - httproutes/prometheushttproute.yaml
   - httproutes/grafanahttproute.yaml
   - httproutes/votehttproute.yaml
@@ -13,4 +14,4 @@ resources:
   - httproutes/kube-cost-route.yaml
   - httproutes/postgres-exporter-route.yaml
   - httproutes/redis-exporter-route.yaml
-  - certificate.yaml
+  - httproutes/vault-route.yaml
