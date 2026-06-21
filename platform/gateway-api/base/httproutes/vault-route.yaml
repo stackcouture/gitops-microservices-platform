@@ -20,5 +20,5 @@ spec:
         value: /
 
     backendRefs:
-    - name: vault
+    - name: vault-active
       port: 8200
