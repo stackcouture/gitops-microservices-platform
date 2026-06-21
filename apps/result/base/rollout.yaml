@@ -58,6 +58,18 @@ spec:
             - name: DB_HOST
               value: db.postgres.svc.cluster.local
 
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: POSTGRES_DB
+              value: postgres
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+
           resources:
             requests:
               cpu: "100m"
