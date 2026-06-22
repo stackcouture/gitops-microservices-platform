@@ -36,7 +36,8 @@ spec:
           type: RuntimeDefault
 
       containers:
-      - image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker:ec28f9e67183b0bb535fd23af4cebc6c3234ede8
+      #- image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker:ec28f9e67183b0bb535fd23af4cebc6c3234ede8
+      - image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker
         name: worker
         imagePullPolicy: IfNotPresent
       
