@@ -6,3 +6,4 @@ resources:
   - deployment.yaml
   - scaledobject-worker.yaml
   - serviceaccount.yaml
+  - postgres-secret.yaml
