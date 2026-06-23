@@ -59,13 +59,13 @@ spec:
 
           env:
             - name: DB_HOST
-              value: db.postgres.svc.cluster.local
+              value: 10.160.96.17 
 
             - name: POSTGRES_USER
-              value: postgres
+              value: votingapp
 
             - name: POSTGRES_DB
-              value: postgres
+              value: votingdb
 
             - name: POSTGRES_PASSWORD
               valueFrom:
