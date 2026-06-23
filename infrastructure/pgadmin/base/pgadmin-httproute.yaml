@@ -13,5 +13,5 @@ spec:
 
   rules:
   - backendRefs:
-    - name: pgadmin
+    - name: pgadmin-svc
       port: 80
