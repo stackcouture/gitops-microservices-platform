@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - gcp-cluster-secret-store.yaml
-  #- vault-secret-store.yaml
+  - vault-secret-store.yaml
