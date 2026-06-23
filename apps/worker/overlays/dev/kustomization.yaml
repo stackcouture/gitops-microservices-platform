@@ -6,8 +6,9 @@ resources:
 - ../../base
 
 images:
+- name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/vote
+  newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker
+  newTag: f4b81b68f125d35a5bfecab6cda0e5f978787363
 - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker
   newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/worker
   newTag: ec28f9e67183b0bb535fd23af4cebc6c3234ede8
-
-
