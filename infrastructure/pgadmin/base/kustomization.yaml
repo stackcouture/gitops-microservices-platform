@@ -5,7 +5,6 @@ namespace: pgadmin
 resources:
   - deployment.yaml
   - namespace.yaml
-  - service.yaml
   - pgadmin-httproute.yaml
   - pgadmin-secret.yaml
   - pgadmin-svc.yaml
