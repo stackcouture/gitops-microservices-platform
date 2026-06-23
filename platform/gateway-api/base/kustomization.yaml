@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - gateway.yaml
   - certificate.yaml
-  #- staging-certificate.yaml
   - httproutes/argocdhttproute.yaml
   - httproutes/prometheushttproute.yaml
   - httproutes/grafanahttproute.yaml
