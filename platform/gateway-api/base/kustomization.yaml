@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - gateway.yaml
-  - certificate.yaml
+  #- certificate.yaml
   - staging-certificate.yaml
   - httproutes/argocdhttproute.yaml
   - httproutes/prometheushttproute.yaml
