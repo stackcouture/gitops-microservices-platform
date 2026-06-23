@@ -7,6 +7,4 @@ resources:
   # - prometheus-ingress.yaml
   - result-ingress.yaml
   - vote-ingress.yaml
-  - kiali-ingress.yaml
-  - jaeger-ingress.yaml
   # - kubecost-ingress.yaml
