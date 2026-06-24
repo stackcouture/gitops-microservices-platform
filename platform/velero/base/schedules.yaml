@@ -1,0 +1,43 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: vote-backup
+  namespace: velero
+spec:
+  schedule: "*/5 * * * *"
+
+  template:
+    includedNamespaces:
+      - vote
+
+    ttl: 720h0m0s
+
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: postgres-backup
+  namespace: velero
+spec:
+  schedule: "*/5 * * * *"
+
+  template:
+    includedNamespaces:
+      - postgres
+
+    ttl: 720h0m0s
+
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: redis-backup
+  namespace: velero
+spec:
+  schedule: "*/5 * * * *"
+
+  template:
+    includedNamespaces:
+      - redis
+
+    ttl: 720h0m0s

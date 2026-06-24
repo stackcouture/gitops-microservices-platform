@@ -1,0 +1,10 @@
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: vote-restore-demo
+  namespace: velero
+spec:
+  backupName: vote-backup-demo
+
+  includedNamespaces:
+    - vote
