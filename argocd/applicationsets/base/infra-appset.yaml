@@ -7,9 +7,9 @@ spec:
   generators:
     - list:
         elements:
-          - name: postgres
-            namespace: postgres
-            path: infrastructure/postgres/overlays/dev
+          # - name: postgres
+          #   namespace: postgres
+          #   path: infrastructure/postgres/overlays/dev
           - name: redis
             namespace: redis
             path: infrastructure/redis/overlays/dev
