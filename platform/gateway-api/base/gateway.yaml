@@ -16,7 +16,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: wildcard-stackcouture-prod-tls
+        name: wildcard-stackcouture-stage-tls
 
     allowedRoutes:
       namespaces:

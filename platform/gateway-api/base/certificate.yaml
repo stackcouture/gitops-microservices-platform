@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: wildcard-stackcouture-prod
+  name: wildcard-stackcouture-stage
   namespace: nginx-gateway
 spec:
-  secretName: wildcard-stackcouture-prod-tls
+  secretName: wildcard-stackcouture-stage-tls
 
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-staging
     kind: ClusterIssuer
 
   dnsNames:
