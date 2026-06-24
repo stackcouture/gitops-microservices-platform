@@ -6,3 +6,4 @@ resources:
   - backup-demo.yaml
   - restore-demo.yaml
   - schedules.yaml
+  - platform-project.yaml
