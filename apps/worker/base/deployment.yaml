@@ -43,7 +43,7 @@ spec:
       
         env:
         - name: DB_HOST
-          value: 10.160.96.28
+          value: 10.160.96.30
 
         - name: DB_NAME
           value: votingdb
