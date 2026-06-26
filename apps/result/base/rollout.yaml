@@ -59,7 +59,7 @@ spec:
 
           env:
             - name: DB_HOST
-              value: 10.160.96.26
+              value: 10.160.96.28
 
             - name: POSTGRES_USER
               value: votingapp
