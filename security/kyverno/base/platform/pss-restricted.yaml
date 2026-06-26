@@ -1,0 +1,35 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: pss-restricted
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: restricted
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+
+      exclude:
+        any:
+        - resources:
+            namespaces:
+              - kube-system
+              - kube-public
+              - kube-node-lease
+              - kyverno
+              - cert-manager
+              - monitoring
+              - ingress-nginx
+              - nginx-gateway
+              - external-secrets
+              - argocd
+
+      validate:
+        podSecurity:
+          level: restricted
+          version: latest

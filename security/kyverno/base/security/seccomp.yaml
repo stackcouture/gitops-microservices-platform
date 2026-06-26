@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-seccomp-profile
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: require-runtime-default-seccomp
+      match:
+        any:
+          - resources:
+              kinds:
+                - Rollout
+              namespaces:
+                - vote
+
+      validate:
+        message: "Containers must use seccompProfile.type: RuntimeDefault."
+        foreach:
+          - list: "request.object.spec.template.spec.containers"
+            pattern:
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault

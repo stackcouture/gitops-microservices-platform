@@ -1,0 +1,33 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-signed-images
+spec:
+  validationFailureAction: Enforce
+  background: false
+
+  rules:
+    - name: verify-result-images
+      match:
+        any:
+        - resources:
+            kinds:
+              - Deployments
+
+      verifyImages:
+        - imageReferences:
+            - "asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/*"
+
+          mutateDigest: true
+          required: true
+
+          attestors:
+          - count: 1
+            entries:
+              - keyless:
+                  issuer: https://token.actions.githubusercontent.com
+                  subject: https://github.com/stackcouture/voting-app/.github/workflows/result-ci.yaml@refs/heads/main
+
+              - keyless:
+                  issuer: https://token.actions.githubusercontent.com
+                  subject: https://github.com/stackcouture/voting-app/.github/workflows/vote-ci.yaml@refs/heads/main

@@ -7,6 +7,7 @@ resources:
   - security/privilege-escalation.yaml
   - security/seccomp.yaml
   - security/capabilities.yaml
+  - security/verify-signed-images.yaml
 
   - resources/requests-limits.yaml
 
@@ -19,9 +20,6 @@ resources:
 
   - governance/labels.yaml
   - governance/block-default-namespace.yaml
-
-  - storage/storageclass.yaml
-  - storage/pvc-size.yaml
 
   - ingress/tls.yaml
   - ingress/clusterissuer.yaml

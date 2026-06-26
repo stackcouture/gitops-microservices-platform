@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-no-privilege-escalation
+spec:
+  validationFailureAction: Enforce
+  background: true
+
+  rules:
+    - name: no-privilege-escalation
+      match:
+        any:
+          - resources:
+              kinds:
+                - Rollout
+              namespaces:
+                - vote
+
+      validate:
+        message: "Containers must set allowPrivilegeEscalation to false."
+        foreach:
+          - list: "request.object.spec.template.spec.containers"
+            pattern:
+              securityContext:
+                allowPrivilegeEscalation: false
