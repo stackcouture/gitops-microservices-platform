@@ -18,7 +18,7 @@ spec:
       activeService: result-active-svc 
       previewService: result-preview-svc 
       autoPromotionEnabled: false
-      scaleDownDelaySeconds: 120
+      scaleDownDelaySeconds: 30
   selector:
     matchLabels:
       app: result
@@ -59,7 +59,7 @@ spec:
 
           env:
             - name: DB_HOST
-              value: 10.160.96.30
+              value: 10.160.96.32
 
             - name: POSTGRES_USER
               value: votingapp
