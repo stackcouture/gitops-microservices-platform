@@ -10,7 +10,7 @@ spec:
         elements:
           - name: daily-platform-report
             namespace: automation
-            path: automation/daily-platform-report
+            path: automation/daily-platform-report/overlays/dev
 
   template:
     metadata:
