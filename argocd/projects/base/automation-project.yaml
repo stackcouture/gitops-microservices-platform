@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: automation-project
+  namespace: argocd
+
+spec:
+  description: Platform Automation Workloads
+
+  sourceRepos:
+    - https://github.com/stackcouture/gitops-microservices-platform.git
+
+  destinations:
+    - namespace: automation
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist: []
+
+  namespaceResourceWhitelist:
+    # Batch
+    - group: batch
+      kind: CronJob
+
+    - group: batch
+      kind: Job
+
+    # Core
+    - group: ""
+      kind: Service
+
+    - group: ""
+      kind: ConfigMap
+
+    - group: ""
+      kind: Secret
+
+    - group: ""
+      kind: ServiceAccount
+
+    - group: ""
+      kind: PersistentVolumeClaim
+
+    # RBAC
+    - group: rbac.authorization.k8s.io
+      kind: Role
+
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+
+    # Networking
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+
+    # Monitoring
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+
+    # External Secrets
+    - group: external-secrets.io
+      kind: ExternalSecret

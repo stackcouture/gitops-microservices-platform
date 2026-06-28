@@ -5,3 +5,4 @@ namespace: argocd
 resources:
   - apps-appset.yaml
   - infra-appset.yaml
+  - automation-applications.yaml
