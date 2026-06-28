@@ -4,7 +4,7 @@ metadata:
   name: daily-platform-report
   namespace: automation
 spec:
-  schedule: "*/2 * * * *"
+  schedule: "*/10 * * * *"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
