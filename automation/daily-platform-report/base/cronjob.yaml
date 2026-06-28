@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-platform-report
+  namespace: automation
+spec:
+  schedule: "0 8 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app: daily-platform-report
+        spec:
+          serviceAccountName: automation-sa
+          restartPolicy: Never
+          containers:
+            - name: reporter
+              image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report
+              imagePullPolicy: IfNotPresent
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 300m
+                  memory: 256Mi
+              ports:
+                - name: metrics
+                  containerPort: 8000

@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: daily-platform-report-service-monitor
+  namespace: automation
+spec:
+  selector:
+    matchLabels:
+      app: daily-platform-report
+  namespaceSelector:
+    matchNames:
+      - automation
+  endpoints:
+    - port: metrics
+      interval: 30s
+      path: /metrics
