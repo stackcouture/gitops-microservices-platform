@@ -1,5 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: pgadmin
+
+resources:
+- ../../base
+
 images:
 - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report
   newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report

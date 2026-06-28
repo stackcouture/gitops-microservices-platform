@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: automation
 
 resources:
-  - daily-platform-report/cronjob.yaml
-  - daily-platform-report/servicemonitor.yaml
-  - daily-platform-report/service.yaml
+  - namespace.yaml
+  - rbac.yaml
+  - serviceaccount.yaml
