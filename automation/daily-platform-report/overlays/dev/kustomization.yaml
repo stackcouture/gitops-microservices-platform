@@ -8,4 +8,4 @@ resources:
 images:
 - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report
   newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report
-  newTag: efecd58913d8138d6d58b2e57f07a48806de305c
+  newTag: 5e4f32b890eaeeab8c3adf21588a44bff6e2a517
