@@ -4,7 +4,7 @@ metadata:
   name: daily-platform-report
   namespace: automation
 spec:
-  schedule: "0 8 * * *"
+  schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
@@ -21,6 +21,9 @@ spec:
             - name: reporter
               image: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/platform-automation-repo/daily-platform-report
               imagePullPolicy: IfNotPresent
+              env:
+              - name: CLUSTER_NAME
+                value: project-18ee516c-a108-431d-a73-gke
               resources:
                 requests:
                   cpu: 100m
