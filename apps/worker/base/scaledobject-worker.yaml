@@ -10,12 +10,12 @@ spec:
   pollingInterval: 5
   cooldownPeriod: 30
 
-  minReplicaCount: 0
+  minReplicaCount: 1
   maxReplicaCount: 10
 
   fallback:
     failureThreshold: 3
-    replicas: 0
+    replicas: 2
 
   triggers:
     - type: redis
