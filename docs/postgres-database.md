@@ -4,13 +4,13 @@ This guide walks through creating a dedicated PostgreSQL database and applicatio
 
 ---
 
-## Prerequisites
+# Prerequisites
 
-- Cloud SQL for PostgreSQL instance is running
-- Private IP connectivity to the Cloud SQL instance
-- pgAdmin installed
-- Google Cloud CLI (`gcloud`) authenticated
-- Required IAM permissions to manage Cloud SQL and Secret Manager
+* Cloud SQL for PostgreSQL instance is running
+* Private IP connectivity to the Cloud SQL instance
+* pgAdmin installed
+* Google Cloud CLI (`gcloud`) authenticated
+* Required IAM permissions to manage Cloud SQL and Secret Manager
 
 ---
 
@@ -18,28 +18,19 @@ This guide walks through creating a dedicated PostgreSQL database and applicatio
 
 Connect to your Cloud SQL instance using **pgAdmin** with the following connection details.
 
-| Parameter | Value |
-|-----------|-------|
-| Host | `10.160.96.5` *(Replace with your Cloud SQL private IP)* |
-| Port | `5432` |
-| Database | `postgres` |
-| Username | `postgres` |
-| Password | `postgres123` |
+| Parameter | Value                                                    |
+| --------- | -------------------------------------------------------- |
+| Host      | `10.160.96.5` *(Replace with your Cloud SQL private IP)* |
+| Port      | `5432`                                                   |
+| Database  | `postgres`                                               |
+| Username  | `postgres`                                               |
+| Password  | `postgres123`                                            |
 
 ---
 
-# Step 2: Remove Existing Database and User (Optional)
+# Step 2: Remove Existing Database (Optional)
 
-If the database or application user already exists, remove them before creating fresh resources.
-
-```sql
-DROP DATABASE IF EXISTS votingdb;
-DROP ROLE IF EXISTS votingapp;
-```
-
-### If the database is currently in use
-
-Terminate all active connections:
+If the database already exists, terminate any active connections before dropping it.
 
 ```sql
 SELECT pg_terminate_backend(pid)
@@ -48,11 +39,15 @@ WHERE datname = 'votingdb'
 AND pid <> pg_backend_pid();
 ```
 
-Then drop the database:
+Drop the database if it exists.
 
 ```sql
-DROP DATABASE votingdb;
+DROP DATABASE IF EXISTS votingdb;
 ```
+
+> **Note**
+>
+> Ensure all Kubernetes workloads (vote, result, and worker) are stopped before dropping the database to avoid active connections.
 
 ---
 
@@ -66,7 +61,7 @@ LOGIN
 PASSWORD 'VotingApp@123';
 ```
 
-### Verify
+Verify the role:
 
 ```sql
 SELECT rolname, rolcanlogin
@@ -76,116 +71,96 @@ WHERE rolname = 'votingapp';
 
 Expected output:
 
-| rolname | rolcanlogin |
-|----------|-------------|
-| votingapp | t |
+| rolname   | rolcanlogin |
+| --------- | ----------- |
+| votingapp | t           |
 
 ---
 
-# Step 4: Create the Application Database
+# Step 4: Grant Temporary Database Creation Permission
 
-Create a dedicated database for the Voting Application.
+Temporarily allow the application user to create the database.
+
+```sql
+ALTER ROLE votingapp CREATEDB;
+```
+
+> **Why is this required?**
+>
+> Cloud SQL for PostgreSQL 15+ uses the special `pg_database_owner` role for ownership of the `public` schema. Creating the database as `votingapp` ensures the application user owns the database and can create tables without additional permission issues.
+
+---
+
+# Step 5: Create the Application Database
+
+Disconnect from the **postgres** connection.
+
+Create a new pgAdmin connection using:
+
+| Parameter | Value           |
+| --------- | --------------- |
+| Host      | `10.160.96.5`   |
+| Port      | `5432`          |
+| Database  | `postgres`      |
+| Username  | `votingapp`     |
+| Password  | `VotingApp@123` |
+
+While connected as **votingapp**, create the database:
 
 ```sql
 CREATE DATABASE votingdb;
 ```
 
-### Verify
+Verify the owner:
 
 ```sql
-SELECT datname
-FROM pg_database;
+SELECT datname,
+       pg_get_userbyid(datdba) AS owner
+FROM pg_database
+WHERE datname = 'votingdb';
 ```
 
 Expected output:
 
-```
-postgres
-votingdb
-```
+| Database | Owner     |
+| -------- | --------- |
+| votingdb | votingapp |
 
 ---
 
-# Step 5: Grant Database Permissions
+# Step 6: Verify Database Permissions
 
-Connect to the newly created **votingdb** database in pgAdmin and execute the following SQL statements.
+Reconnect as **votingapp** using the **votingdb** database.
 
-Grant database access:
+Verify that the application user can create tables.
 
 ```sql
-GRANT CONNECT ON DATABASE votingdb TO votingapp;
+CREATE TABLE public.permission_test (
+    id INT PRIMARY KEY
+);
 ```
 
-Grant schema permissions:
+Drop the test table.
 
 ```sql
-GRANT USAGE, CREATE ON SCHEMA public TO votingapp;
+DROP TABLE public.permission_test;
 ```
 
-Grant table permissions:
+If both commands succeed, the database permissions are configured correctly.
+
+---
+
+# Step 7: (Optional) Remove Temporary CREATEDB Permission
+
+Reconnect as **postgres** and execute:
 
 ```sql
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO votingapp;
-```
-
-Grant sequence permissions:
-
-```sql
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO votingapp;
-```
-
-Grant default privileges for future tables:
-
-```sql
-ALTER DEFAULT PRIVILEGES IN SCHEMA public
-GRANT ALL ON TABLES TO votingapp;
-```
-
-Grant default privileges for future sequences:
-
-```sql
-ALTER DEFAULT PRIVILEGES IN SCHEMA public
-GRANT ALL ON SEQUENCES TO votingapp;
+ALTER ROLE votingapp NOCREATEDB;
 ```
 
 > **Note**
 >
-> Cloud SQL may return a permission error for the `ALTER DEFAULT PRIVILEGES` commands. This can be safely ignored, as the previous `GRANT` statements are sufficient for most application workloads.
-
----
-
-# Step 6: Reset the Application Password (Optional)
-
-If required, reset the application user's password.
-
-```sql
-ALTER ROLE votingapp
-WITH PASSWORD 'VotingApp@123';
-```
-
----
-
-# Step 7: Verify the Application User
-
-Create a new server connection in **pgAdmin** using the application credentials.
-
-## General
-
-| Field | Value |
-|--------|-------|
-| Name | Voting App |
-
-## Connection
-
-| Field | Value |
-|--------|-------|
-| Host | `10.160.96.5` *(Replace with your Cloud SQL private IP)* |
-| Port | `5432` |
-| Maintenance Database | `votingdb` |
-| Username | `votingapp` |
-| Password | `VotingApp@123` |
-
-If the connection succeeds, the database configuration is complete.
+> Some Cloud SQL environments restrict modifying role attributes after creation. If this command returns a permission error, it can be safely skipped in development environments.
 
 ---
 
@@ -200,7 +175,7 @@ echo -n "VotingApp@123" | gcloud secrets create votingapp-password --data-file=-
 
 echo -n "votingdb" | gcloud secrets create postgres-db --data-file=-
 
-echo -n "10.160.96.17" | gcloud secrets create postgres-host --data-file=-
+echo -n "10.160.96.5" | gcloud secrets create postgres-host --data-file=-
 ```
 
 If the secrets already exist, create new versions instead.
@@ -209,6 +184,10 @@ If the secrets already exist, create new versions instead.
 echo -n "votingapp" | gcloud secrets versions add votingapp-username --data-file=-
 
 echo -n "VotingApp@123" | gcloud secrets versions add votingapp-password --data-file=-
+
+echo -n "votingdb" | gcloud secrets versions add postgres-db --data-file=-
+
+echo -n "10.160.96.5" | gcloud secrets versions add postgres-host --data-file=-
 ```
 
 ---
@@ -217,12 +196,26 @@ echo -n "VotingApp@123" | gcloud secrets versions add votingapp-password --data-
 
 Configure the application with the following PostgreSQL environment variables.
 
-| Environment Variable | Value |
-|----------------------|-------|
-| `POSTGRES_HOST` | `10.160.96.17` |
-| `POSTGRES_PORT` | `5432` |
-| `POSTGRES_DB` | `votingdb` |
-| `POSTGRES_USER` | `votingapp` |
-| `POSTGRES_PASSWORD` | `VotingApp@123` |
+| Environment Variable | Value           |
+| -------------------- | --------------- |
+| `POSTGRES_HOST`      | `10.160.96.5`   |
+| `POSTGRES_PORT`      | `5432`          |
+| `POSTGRES_DB`        | `votingdb`      |
+| `POSTGRES_USER`      | `votingapp`     |
+| `POSTGRES_PASSWORD`  | `VotingApp@123` |
 
 These values can be injected into Kubernetes workloads using **External Secrets** integrated with **Google Secret Manager**.
+
+---
+
+# Verification
+
+Before deploying the application through ArgoCD, verify:
+
+* `votingdb` exists.
+* `votingapp` is the database owner.
+* `votingapp` can successfully create and drop tables.
+* Google Secret Manager contains the latest database credentials.
+* External Secrets has synchronized the Kubernetes secret successfully.
+
+Once verified, sync the ArgoCD applications (`vote`, `result`, and `worker`) and confirm that all pods start successfully without PostgreSQL permission errors.
