@@ -9,7 +9,7 @@ metadata:
     environment: dev
 
 spec:
-  replicas: 2
+  replicas: 0
   revisionHistoryLimit: 5
   progressDeadlineSeconds: 600
 
