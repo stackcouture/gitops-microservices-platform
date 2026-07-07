@@ -10,7 +10,7 @@ spec:
   pollingInterval: 5
   cooldownPeriod: 30
 
-  minReplicaCount: 1
+  minReplicaCount: 0
   maxReplicaCount: 10
 
   fallback:
