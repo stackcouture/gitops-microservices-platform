@@ -10,7 +10,7 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: vote
-  minReplicas: 2
+  minReplicas: 0
   maxReplicas: 10
   metrics:
     - type: Resource
