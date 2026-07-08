@@ -5,7 +5,13 @@ The **GitOps repository** for the [gitops-platform-engineering](https://github.c
 ArgoCD continuously watches this repository and automatically reconciles the live cluster state to match what is defined here. No manual `kubectl apply` is ever used for deployments.
 
 ---
+### Demo Walkthrough 
 
+![Blue-Green Deployment](docs/images/blue-green-deployment.gif "Blue-Green Deployment Demo")
+![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
+![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
+
+---
 ## Table of Contents
 
 - [Overview](#overview)
