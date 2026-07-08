@@ -862,4 +862,5 @@ Every generated Application is configured with:
 - Declarative GitOps deployment
 
 As a result, any change committed to Git is automatically detected by ArgoCD, synchronized to the Kubernetes cluster, and continuously reconciled to ensure the live environment always matches the desired state stored in Git.
+
 ---
