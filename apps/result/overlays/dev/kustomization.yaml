@@ -9,4 +9,4 @@ resources:
 images:
 - name: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
   newName: asia-south1-docker.pkg.dev/project-18ee516c-a108-431d-a73/vote-docker-repo/result
-  newTag: 3fee17f5f8608e522b15a470ddaf85d685e56319
+  newTag: 4e1c4527c819a292660e694f2590af1014392852
