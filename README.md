@@ -433,87 +433,433 @@ gitops-microservices-platform/
 
 ```
 ---
-## Folders In Detail
+## 📂 Repository Structure
 
-### 📁 `apps/`
+The **gitops-microservices-platform** repository serves as the **GitOps source of truth** for the Kubernetes platform. Every application workload, infrastructure component, platform service, security policy, governance policy, and operational automation is defined declaratively in Git and continuously reconciled to the Kubernetes cluster by **ArgoCD**.
 
-Contains all Kubernetes manifests for the five voting app microservices. Each service follows the same **Kustomize `base` + `overlays`** pattern:
+The repository is organized into seven logical layers:
 
-- **`base/`** — environment-agnostic Kubernetes resources (`Deployment`, `Service`, `ConfigMap`). Uses a placeholder image tag and is never edited directly after initial creation.
-- **`overlays/dev/`** — dev-environment-specific patches: image tag (updated by CI on every build), replica count, resource limits, and environment variables.
-
-**Services managed:**
-
-| Service    | Language       | Port | Description                          |
-|------------|----------------|------|--------------------------------------|
-| `vote`     | Python (Flask) | 80   | Web UI for casting votes             |
-| `result`   | Node.js        | 80   | Web UI for displaying results        |
-| `worker`   | C# (.NET)      | —    | Processes votes: Redis to PostgreSQL |
-
-**How image tags are updated by CI:**
-
-When the `voting-app` CI pipeline pushes a new image to Artifact Registry, it automatically runs:
-
-```bash
-cd apps/result/overlays/dev
-kustomize edit set image \
-  result=asia-south1-docker.pkg.dev/<project>/vote-docker-repo/result:<new-sha>
+```text
+gitops-microservices-platform/
+├── apps/
+├── infrastructure/
+├── platform/
+├── security/
+├── governance/
+├── automation/
+└── argocd/
 ```
 
-commits, and pushes to `main`. ArgoCD detects the change within minutes and rolls out the new pod.
+Each directory has a clearly defined responsibility, providing a clean separation between application deployments, infrastructure resources, platform services, security controls, governance policies, operational automation, and GitOps configuration.
 
 ---
-### 📁 `argocd/`
+### 📁 apps/
 
-Contains all ArgoCD configuration — the **App of Apps bootstrap** 
+The **apps/** directory contains the Kubernetes manifests for the voting application workloads. Each microservice is managed independently using **Kustomize**, allowing every service to follow its own deployment lifecycle while maintaining a consistent repository structure.
 
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: apps-applications
-  namespace: argocd
-spec:
-  generators:
-    - list:
-        elements:
-          - name: vote
-            namespace: vote
-            path: apps/vote/overlays/dev
-          - name: result
-            namespace: vote
-            path: apps/result/overlays/dev
-          - name: worker
-            namespace: vote
-            path: apps/worker
-  template:
-    metadata:
-      name: '{{name}}-app'
-    spec:
-      project: apps-project
-      source:
-        repoURL: https://github.com/stackcouture/gitops-microservices-platform.git
-        targetRevision: main
-        path: '{{path}}'
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+```text
+apps/
+├── vote/
+├── result/
+└── worker/
 ```
 
-**`argocd/projects/voting-app-project.yaml`** — an `AppProject` that scopes all voting app `Applications` to:
-- This Git repository as the only allowed source
-- The `voting-app` namespace as the only allowed destination
-- A restricted set of allowed Kubernetes resource kinds (least privilege)
+Every application follows the same Kustomize layout:
 
-**`argocd/applicationsets/*.yaml`** — one `Application` manifest per microservice. Each `ApplicationSet`:
-- Points to a specific `apps/<service>/overlays/dev/` path in this repo
-- Uses `syncPolicy.automated` for hands-free sync on every Git change
-- Enables `selfHeal: true` to automatically revert any manual cluster changes back to Git state
+```text
+service/
+├── base/
+└── overlays/
+    └── dev/
+```
 
+### base/
+
+The **base/** directory contains reusable Kubernetes manifests that remain independent of any deployment environment.
+
+Typical resources include:
+
+- Rollouts or Deployments
+- Services
+- Service Accounts
+- RBAC
+- Horizontal Pod Autoscalers (HPA)
+- ServiceMonitors
+- Pod Disruption Budgets (PDB)
+- Prometheus Alert Rules
+- AnalysisTemplates
+- Kustomization files
+
+These manifests define the desired application state without environment-specific configuration.
+
+### overlays/
+
+The **overlays/** directory contains environment-specific customizations.
+
+Instead of modifying the base manifests, overlays apply patches such as:
+
+- Container image tag
+- Replica count
+- Environment variables
+- Labels and annotations
+- Resource requests and limits
+- Namespace configuration
+
+After every successful build, the GitHub Actions CI pipeline automatically updates the image tag inside the corresponding overlay before committing the changes back to this GitOps repository.
+
+---
+### Vote Service
+
+**Technology:** Python (Flask)
+
+The Vote service provides the user-facing interface for casting votes.
+
+#### Responsibilities
+
+- Accept user requests
+- Validate incoming votes
+- Publish vote messages to Redis
+- Expose Prometheus metrics
+- Progressive delivery using **Argo Rollouts (Canary)**
+
+---
+### Result Service
+
+**Technology:** Node.js
+
+The Result service retrieves processed vote data from PostgreSQL and displays live voting results.
+
+#### Responsibilities
+
+- Query Cloud SQL for PostgreSQL
+- Display live voting results
+- Expose Prometheus metrics
+- Progressive delivery using **Argo Rollouts (Blue-Green)**
+
+---
+### Worker Service
+
+**Technology:** .NET
+
+The Worker service performs asynchronous background processing.
+
+#### Responsibilities
+
+- Continuously consume messages from Redis
+- Process vote events
+- Persist processed data into PostgreSQL
+- Automatically scale using **KEDA** based on Redis queue length
+
+---
+### 📁 infrastructure/
+
+The **infrastructure/** directory contains the stateful infrastructure components that run inside the Kubernetes cluster.
+
+```text
+infrastructure/
+├── postgres/
+├── redis/
+├── pgadmin/
+└── external-secrets-sa/
+```
+
+These resources provide persistent storage, message queuing, administration tools, and supporting service accounts required by the application platform.
+
+---
+### PostgreSQL
+
+Provides the application's persistent relational database.
+
+#### Resources
+
+- StatefulSet
+- ClusterIP Service
+- Headless Service
+- ExternalSecret
+- ServiceAccount
+- Kustomize overlays
+
+---
+### Redis
+
+Provides the in-memory message queue used by the Worker service.
+
+#### Resources
+
+- StatefulSet
+- ClusterIP Service
+- Headless Service
+- Kustomize overlays
+
+---
+### pgAdmin
+
+Provides a browser-based administration interface for PostgreSQL.
+
+#### Resources
+
+- Deployment
+- Service
+- HTTPRoute
+- Secret
+- Namespace
+- Kustomization
+
+---
+### External Secrets Service Account
+
+Provides the Kubernetes ServiceAccount used by External Secrets Operator to authenticate with external secret providers.
+
+---
+### 📁 platform/
+
+The **platform/** directory contains shared platform services that support networking, certificates, secrets management, monitoring, namespaces, and backup operations.
+
+```text
+platform/
+├── cluster-secrets/
+├── clusterissuer/
+├── gateway-api/
+├── ingress/
+├── monitoring/
+├── namespaces/
+└── velero/
+```
+
+Unlike application manifests, these resources provide shared services used across the entire Kubernetes platform.
+
+---
+### cluster-secrets/
+
+Centralizes secret management across the platform.
+
+#### Includes
+
+- HashiCorp Vault Secret Store
+- Google Secret Manager ClusterSecretStore
+- Cloudflare ExternalSecret
+
+---
+### clusterissuer/
+
+Manages automated TLS certificate issuance using **cert-manager**.
+
+#### Includes
+
+- Production ClusterIssuer
+- Staging ClusterIssuer
+
+---
+### gateway-api/
+
+Defines external traffic routing using **Gateway API** and **NGINX Gateway Fabric**.
+
+#### Resources
+
+- Gateway
+- Certificate
+- HTTPRoutes for:
+  - Vote
+  - Result
+  - Preview Result
+  - ArgoCD
+  - Grafana
+  - Prometheus
+  - Vault
+  - Kubecost
+  - PostgreSQL Exporter
+  - Redis Exporter
+
+---
+### ingress/
+
+Contains legacy Kubernetes Ingress resources where required by platform components.
+
+---
+### monitoring/
+
+Deploys platform monitoring exporters.
+
+#### Includes
+
+- PostgreSQL Exporter
+- Redis Exporter
+- ServiceMonitors
+
+---
+### namespaces/
+
+Creates the Kubernetes namespaces required by the platform.
+
+Examples include:
+
+- vote
+- postgres
+- redis
+
+---
+### velero/
+
+Provides backup and disaster recovery resources.
+
+#### Includes
+
+- Scheduled backups
+- Backup policies
+- Restore manifests
+- Velero Application
+
+---
+### 📁 security/
+
+The **security/** directory centralizes the platform's security controls.
+
+```text
+security/
+├── kyverno/
+├── falco/
+└── network-policies/
+```
+
+These components implement admission control, runtime security, and network segmentation.
+
+---
+### Kyverno
+
+Provides Kubernetes-native policy enforcement.
+
+#### Policy Categories
+
+- Pod Security Standards
+- Image verification
+- Signed image verification
+- Resource requests and limits
+- Namespace governance
+- TLS enforcement
+- RBAC
+- Platform protection
+- Container hardening
+- Network security
+
+---
+### Falco
+
+Provides runtime threat detection for Kubernetes workloads.
+
+#### Responsibilities
+
+- Detect suspicious container activity
+- Monitor Kubernetes events
+- Apply custom runtime detection rules
+- Generate security alerts
+
+---
+
+### Network Policies
+
+Implements namespace isolation using Kubernetes NetworkPolicies.
+
+Explicit communication is allowed only between trusted workloads.
+
+#### Allowed Traffic
+
+- Vote → Redis
+- Worker → Redis
+- Worker → PostgreSQL
+- Result → PostgreSQL
+- Prometheus → Application Metrics
+
+All other traffic is denied by default using a **Default Deny** policy.
+
+---
+### 📁 governance/
+
+The **governance/** directory defines namespace-level governance and resource management policies.
+
+Each namespace includes:
+
+- ResourceQuota
+- LimitRange
+
+These policies ensure consistent resource allocation while preventing resource exhaustion caused by noisy-neighbor workloads.
+
+Namespaces managed include:
+
+- ArgoCD
+- Monitoring
+- PostgreSQL
+- Redis
+- Kyverno
+- Falco
+- External Secrets
+- cert-manager
+- NGINX Gateway
+
+---
+### 📁 automation/
+
+The **automation/** directory contains operational automation executed inside Kubernetes using **CronJobs**.
+
+Current automation includes:
+
+- Daily platform health reports
+- Kubernetes CronJobs
+- Shared ServiceAccounts
+- RBAC
+- Platform monitoring endpoints
+- Slack notifications
+
+These workloads automate recurring operational tasks and reduce manual operational effort.
+
+---
+### 📁 argocd/
+
+The **argocd/** directory bootstraps the entire GitOps platform.
+
+```text
+argocd/
+├── projects/
+└── applicationsets/
+```
+
+---
+#### projects/
+
+Defines ArgoCD **AppProjects**.
+
+Each project restricts:
+
+- Allowed Git repositories
+- Destination namespaces
+- Kubernetes clusters
+- Allowed Kubernetes resource types
+
+Separate projects are maintained for:
+
+- Applications
+- Infrastructure
+- Platform
+
+This separation improves governance and follows the principle of least privilege.
+
+---
+
+#### applicationsets/
+
+Defines the **ApplicationSets** responsible for automatically generating ArgoCD Applications.
+
+Each ApplicationSet deploys one logical platform layer:
+
+- Applications
+- Infrastructure
+- Platform Services
+
+Every generated Application is configured with:
+
+- Automated synchronization
+- Self-healing
+- Resource pruning
+- Declarative GitOps deployment
+
+As a result, any change committed to Git is automatically detected by ArgoCD, synchronized to the Kubernetes cluster, and continuously reconciled to ensure the live environment always matches the desired state stored in Git.
 ---
