@@ -421,7 +421,7 @@ gitops-microservices-platform/
 
 ```
 ---
-## 📂 Folders In Detail
+## Folders In Detail
 
 The **gitops-microservices-platform** repository serves as the **GitOps source of truth** for the Kubernetes platform. Every application workload, infrastructure component, platform service, security policy, governance policy, and operational automation is defined declaratively in Git and continuously reconciled to the Kubernetes cluster by **ArgoCD**.
 
