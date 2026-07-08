@@ -13,18 +13,6 @@ ArgoCD continuously watches this repository and automatically reconciles the liv
 - [Architecture](#architecture)
 - [Folder Structure](#folder-structure)
 - [Folders In Detail](#folders-in-detail)
-  - [apps/](#-apps)
-  - [argocd/](#-argocd)
-  - [infra/](#-infra)
-  - [platform/](#-platform)
-- [GitOps Workflow](#gitops-workflow)
-- [App of Apps Pattern](#app-of-apps-pattern)
-- [Kustomize Structure](#kustomize-structure)
-- [Adding a New Application](#adding-a-new-application)
-- [Bootstrapping ArgoCD](#bootstrapping-argocd)
-- [Prerequisites](#prerequisites)
-- [Contributing](#contributing)
-- [Related Repositories](#related-repositories)
 
 ---
 
@@ -433,7 +421,7 @@ gitops-microservices-platform/
 
 ```
 ---
-## 📂 Repository Structure
+## 📂 Folders In Detail
 
 The **gitops-microservices-platform** repository serves as the **GitOps source of truth** for the Kubernetes platform. Every application workload, infrastructure component, platform service, security policy, governance policy, and operational automation is defined declaratively in Git and continuously reconciled to the Kubernetes cluster by **ArgoCD**.
 
