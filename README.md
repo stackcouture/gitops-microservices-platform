@@ -67,36 +67,8 @@ voting-app CI pushes new image tag
 ---
 ## Architecture
 
-```
-gitops-microservices-platform/
-        │
-        ├─────────────────
-        │                │
-        │     ┌──────────┼──────────┬──────────┐
-        │     ▼          ▼          ▼          ▼
-        │   apps/      infra/   platform/  argocd/apps
-        │
-        ├── apps/         Voting app microservice manifests (Kustomize)
-        │     ├── vote/
-        │     ├── result/
-        |     └── worker/
-        │
-        ├── infra/        Cluster infrastructure (Postgres, Redis)
-        |     ├── postgres/
-        |     └── redis/
-        |
-        ├── platform/         Platform Dependencies (External secrets, Ingress, Ingress, Namespaces)
-        │     ├── external-secrets/
-        │     ├── gateway-api/
-        |     ├── Ingress
-        |     ├── Namespaces/
-        │     ├── Network Policies/
-        │     └── storage/
-        │
-        ├── argocd/     Platform tooling and ArgoCD configuration
-        |     ├── ApplicationSets/
-        │     └── Projects/
-```
+![Project Overview](docs/images/architecture.png "Project Demo")
+
 ---
 ## Folder Structure
 
