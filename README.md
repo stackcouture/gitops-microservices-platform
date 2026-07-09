@@ -1,14 +1,48 @@
-# gitops-microservices-platform
+# Gitops Microservices Platform
+
+<div align="center">
+
+![ArgoCD](https://img.shields.io/badge/ArgoCD-GitOps-EF7B4D?style=for-the-badge&logo=argo)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-GKE-326CE5?style=for-the-badge&logo=kubernetes)
+![Kustomize](https://img.shields.io/badge/Kustomize-Configuration-326CE5?style=for-the-badge)
+![Gateway API](https://img.shields.io/badge/Gateway_API-Traffic_Management-009688?style=for-the-badge)
+![Argo Rollouts](https://img.shields.io/badge/Argo_Rollouts-Progressive_Deployment-FC6D26?style=for-the-badge)
+![External Secrets](https://img.shields.io/badge/External_Secrets-Secret_Management-6A1B9A?style=for-the-badge)
+
+![Kyverno](https://img.shields.io/badge/Kyverno-Policy_as_Code-00A3E0?style=for-the-badge)
+![Cert Manager](https://img.shields.io/badge/cert--manager-TLS_Automation-326CE5?style=for-the-badge)
+![Prometheus](https://img.shields.io/badge/Prometheus-Monitoring-E6522C?style=for-the-badge&logo=prometheus)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?style=for-the-badge&logo=grafana)
+![KEDA](https://img.shields.io/badge/KEDA-Event_Driven_Autoscaling-5A0FC8?style=for-the-badge)
+![Slack](https://img.shields.io/badge/Slack-Notifications-4A154B?style=for-the-badge&logo=slack)
+
+**Production-grade GitOps repository managing Kubernetes infrastructure, platform services, applications, and operational automation on Google Kubernetes Engine**
+
+</div>
 
 The **GitOps repository** for the [gitops-platform-engineering](https://github.com/stackcouture/gitops-platform-engineering) portfolio project. This repository is the **single source of truth** for the desired state of all Kubernetes workloads running on the GKE cluster — including application deployments, infrastructure add-ons, platform tooling, and ArgoCD configuration.
 
 ArgoCD continuously watches this repository and automatically reconciles the live cluster state to match what is defined here. No manual `kubectl apply` is ever used for deployments.
 
 ---
-### Demo Walkthrough 
+## 🎥 Demo Walkthrough
+
+---
+
+### 🔵 Blue-Green Deployment
 
 ![Blue-Green Deployment](docs/images/blue-green-deployment.gif "Blue-Green Deployment Demo")
+
+---
+
+### 🟢 Canary Deployment
+
 ![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
+
+---
+
+### 💰 Kubecost
+
 ![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
 
 ---
