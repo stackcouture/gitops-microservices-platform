@@ -41,6 +41,31 @@ Using **Argo CD** and **Kustomize**, all changes are version-controlled, automat
 This project serves as a portfolio demonstrating production-inspired DevOps, GitOps, and Platform Engineering practices on Kubernetes.
 
 ---
+## Table of Contents
+
+- [Overview](#overview)
+  - [Key Highlights](#key-highlights)
+- [Why This Project](#why-this-project)
+- [Platform Capabilities](#platform-capabilities)
+- [Technology Stack](#technology-stack)
+- [Platform Architecture](#platform-architecture)
+  - [Architecture Diagram](#architecture-diagram)
+  - [Key Architectural Layers](#key-architectural-layers)
+    - [Infrastructure Layer](#infrastructure-layer)
+    - [CI Layer](#ci-layer)
+    - [GitOps Layer](#gitops-layer)
+    - [Kubernetes Platform Layer](#kubernetes-platform-layer)
+- [Repository Structure](#repository-structure)
+- [Demo](#demo)
+  - [Blue-Green Deployment](#blue-green-deployment)
+  - [Canary Deployment](#canary-deployment)
+  - [Platform Monitoring](#platform-monitoring)
+  - [Cost Visibility](#cost-visibility)
+- [Documentation](#documentation)
+- [Future Enhancements](#future-enhancements)
+- [License](#license)
+
+---
 ## Why This Project
 
 Modern cloud-native applications require more than just deploying containers—they demand reliable infrastructure, automated delivery, security, observability, and scalable operations. This project was created to demonstrate how these capabilities can be integrated into a production-inspired Kubernetes platform using GitOps principles.
