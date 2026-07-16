@@ -16,31 +16,27 @@
 ![KEDA](https://img.shields.io/badge/KEDA-Event_Driven_Autoscaling-5A0FC8?style=for-the-badge)
 ![Slack](https://img.shields.io/badge/Slack-Notifications-4A154B?style=for-the-badge&logo=slack)
 
-**Production-grade GitOps repository managing Kubernetes infrastructure, platform services, applications, and operational automation on Google Kubernetes Engine**
+**Production-inspired GitOps repository for managing Kubernetes applications, infrastructure, platform services, security, and operational automation on Google Kubernetes Engine (GKE).**
 
 </div>
 
-The **GitOps repository** for the [gitops-platform-engineering](https://github.com/stackcouture/gitops-platform-engineering) portfolio project. This repository is the **single source of truth** for the desired state of all Kubernetes workloads running on the GKE cluster — including application deployments, infrastructure add-ons, platform tooling, and ArgoCD configuration.
-
-ArgoCD continuously watches this repository and automatically reconciles the live cluster state to match what is defined here. No manual `kubectl apply` is ever used for deployments.
-
 ---
-## Project Overview
+## Overview
 
-This repository showcases a **production-inspired GitOps microservices platform** built on **Google Kubernetes Engine (GKE)**. It demonstrates modern cloud-native practices by combining **Terraform**, **GitHub Actions**, **Argo CD**, and **Kubernetes** to provision infrastructure, automate CI/CD, and manage declarative application deployments through GitOps.
+This repository serves as the **GitOps source of truth** for the **GitOps Microservices Platform.** It stores the declarative Kubernetes manifests that define the desired state of the platform, including application workloads, infrastructure components, shared platform services, security policies, governance controls, operational automation, and Argo CD configuration.
 
-The platform deploys a **polyglot voting application** composed of multiple microservices (Frontend, Vote, Result, Worker, Redis, and PostgreSQL) while integrating production-inspired capabilities such as **progressive delivery**, **policy enforcement**, **secret management**, **autoscaling**, and **observability**.
+Using **Argo CD** and **Kustomize**, all changes are version-controlled, automatically synchronized, and continuously reconciled with the Kubernetes cluster. This GitOps workflow enables automated deployments, self-healing, configuration drift detection, and consistent platform management without manually applying Kubernetes manifests.
 
 ### Key Highlights
 
-* Infrastructure provisioning with **Terraform**
-* GitOps-based deployments using **Argo CD** and **Kustomize**
-* CI pipeline automation with **GitHub Actions**
-* Progressive delivery with **Argo Rollouts**
-* Security using **Kyverno** and **External Secrets**
-* Gateway API for Kubernetes networking
-* Autoscaling with **HPA** and **KEDA**
-* Monitoring with **Prometheus**, **Grafana**
+* ✅ Infrastructure provisioning with **Terraform**
+* ✅ GitOps-based deployments using **Argo CD** and **Kustomize**
+* ✅ CI pipeline automation with **GitHub Actions**
+* ✅ Progressive delivery with **Argo Rollouts**
+* ✅ Security using **Kyverno** and **External Secrets**
+* ✅ Gateway API for Kubernetes networking
+* ✅ Autoscaling with **HPA** and **KEDA**
+* ✅ Monitoring with **Prometheus**, **Grafana**
 
 This project serves as a portfolio demonstrating production-inspired DevOps, GitOps, and Platform Engineering practices on Kubernetes.
 
@@ -99,7 +95,7 @@ The goal is to provide a practical reference implementation for DevOps and Platf
   <img src="docs/images/architecture.png" width="900" alt="Architecture">
 </p>
 
-### Architecture Overview
+### Key Architectural Layers
 
 The platform is organized into four logical layers, each responsible for a specific part of the application lifecycle.
 
@@ -492,7 +488,11 @@ The repository is organized into logical directories, each responsible for a spe
 
 ![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
 
-### Kubecost
+### Platform Monitoring
+
+![Kubecost](docs/images/grafana.gif "Platform Monitoring")
+
+### Cost Visibility
 
 ![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
 
