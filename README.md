@@ -175,16 +175,16 @@ The repository is organized into logical directories, each responsible for a spe
 ---
 ## Documentation
 
-| Directory           | Purpose                                                                                                    |
-| :------------------ | :--------------------------------------------------------------------------------------------------------- |
-| **Repository Structure/**           | Complete repository layout, directory hierarchy, and Kubernetes manifest organization.                            |
-| **apps/**           | Kubernetes manifests for application workloads managed with Kustomize overlays.                            |
-| **infrastructure/** | Stateful services such as PostgreSQL, Redis, and supporting infrastructure components.                     |
-| **platform/**       | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
-| **security/**       | Kubernetes security policies, runtime security, and network segmentation.                                  |
-| **governance/**     | Namespace governance through ResourceQuota and LimitRange policies.                                        |
-| **automation/**     | Operational automation using Kubernetes CronJobs and supporting resources.                                 |
-| **argocd/**         | Argo CD AppProjects and ApplicationSets for GitOps-based deployment and lifecycle management.              |
+| Document | Description |
+| :------- | :---------- |
+| **[Repository Structure](docs/platform-components/repository-structure.md)** | Complete repository layout, directory hierarchy, and Kubernetes manifest organization. |
+| **[Applications](docs/platform-components/applications.md)** | Kubernetes manifests for application workloads managed with Kustomize overlays. |
+| **[Infrastructure](docs/platform-components/infrastructure.md)** | Stateful services such as PostgreSQL, Redis, pgAdmin, and supporting infrastructure components. |
+| **[Platform Services](docs/platform-components/platform-services.md)** | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
+| **[Security](docs/platform-components/security.md)** | Kubernetes security policies, runtime security, and network segmentation. |
+| **[Governance](docs/platform-components/governance.md)** | Namespace governance through ResourceQuota and LimitRange policies. |
+| **[Automation](docs/platform-components/automation.md)** | Operational automation using Kubernetes CronJobs and supporting resources. |
+| **[GitOps Configuration](docs/platform-components/gitops-configuration.md)** | Argo CD AppProjects and ApplicationSets for GitOps-based deployment and lifecycle management. |
 
 > **Note:** Detailed documentation for each directory and its components is available in the **[`docs/`](docs/platform-components)** directory.
 
