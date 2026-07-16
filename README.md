@@ -120,78 +120,7 @@ The GitOps layer serves as the single source of truth for Kubernetes manifests. 
 The Kubernetes platform hosts the application workloads and platform services. The voting application runs alongside operational components such as Gateway API, Argo Rollouts, Kyverno, External Secrets, Prometheus, Grafana, Loki, HPA, and KEDA, providing networking, security, observability, progressive delivery, and autoscaling capabilities.
 
 ---
-## 🎥 Demo Walkthrough
-
-### 🔵 Blue-Green Deployment
-
-![Blue-Green Deployment](docs/images/blue-green-deployment.gif "Blue-Green Deployment Demo")
-
----
-
-### 🟢 Canary Deployment
-
-![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
-
----
-
-### 💰 Kubecost
-
-![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
-
----
-## Table of Contents
-
-- [Overview](#overview)
-- [How It Fits Into the Platform](#how-it-fits-into-the-platform)
-- [Architecture](#architecture)
-- [Folder Structure](#folder-structure)
-- [Folders In Detail](#folders-in-detail)
-
----
-
-## Overview
-
-This repo contains **no application source code**. It contains only Kubernetes manifests, Kustomize overlays, and ArgoCD configuration — the desired state of the cluster. It is updated automatically by the CI pipeline in `voting-app` whenever a new image is built and pushed.
-
-| What lives here                                  | What does NOT live here       |
-|--------------------------------------------------|-------------------------------|
-| Kubernetes Deployments, Services, ConfigMaps     | Application source code       |
-| Kustomize `base/` and `overlays/`                | Dockerfiles                   |
-| ArgoCD `Application` and `AppProject` manifests  | CI pipeline definitions       |
-| Infrastructure add-on configs (namespaces, RBAC) | Terraform infrastructure code |
-| Platform tooling manifests                       | Secrets (managed via External Secrets or Sealed Secrets)  |
-
----
-## How It Fits Into the Platform
-
-This repo is the middle layer of a three-repo GitOps platform:
-
-| Repo                                            | Role                                   |
-|-------------------------------------------------|----------------------------------------|
-| `platform-infra`                                | Terraform — provisions GKE, VPC, IAM,  Artifact Registry                      |
-| `voting-app`                                    | Application source code + CI builds + image push                           |
-| **`gitops-microservices-platform`** (this repo) | Desired Kubernetes state — watched by  ArgoCD                                 |
-
-```
-voting-app CI pushes new image tag
-              │
-              ▼
-  gitops-microservices-platform
-  (kustomize edit set image → git commit)
-              │
-              ▼
-      ArgoCD detects the change
-              │
-              ▼
-    GKE cluster synced ✓
-```
----
-## Architecture
-
-![Project Overview](docs/images/architecture.png "Project Demo")
-
----
-## Folder Structure
+## Repository Structure
 
 ```
 gitops-microservices-platform/
@@ -548,11 +477,80 @@ gitops-microservices-platform/
 |   |   ├── overlays
 |   |   |    ├── dev
                   └── kustomization.yaml
+```
 
+---
+## Demo Screenshots
 
+### Blue-Green Deployment
 
+![Blue-Green Deployment](docs/images/blue-green-deployment.gif "Blue-Green Deployment Demo")
+
+### Canary Deployment
+
+![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
+
+### Kubecost
+
+![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
+
+---
+## Table of Contents
+
+- [Overview](#overview)
+- [How It Fits Into the Platform](#how-it-fits-into-the-platform)
+- [Architecture](#architecture)
+- [Folder Structure](#folder-structure)
+- [Folders In Detail](#folders-in-detail)
+
+---
+
+## Overview
+
+This repo contains **no application source code**. It contains only Kubernetes manifests, Kustomize overlays, and ArgoCD configuration — the desired state of the cluster. It is updated automatically by the CI pipeline in `voting-app` whenever a new image is built and pushed.
+
+| What lives here                                  | What does NOT live here       |
+|--------------------------------------------------|-------------------------------|
+| Kubernetes Deployments, Services, ConfigMaps     | Application source code       |
+| Kustomize `base/` and `overlays/`                | Dockerfiles                   |
+| ArgoCD `Application` and `AppProject` manifests  | CI pipeline definitions       |
+| Infrastructure add-on configs (namespaces, RBAC) | Terraform infrastructure code |
+| Platform tooling manifests                       | Secrets (managed via External Secrets or Sealed Secrets)  |
+
+---
+## How It Fits Into the Platform
+
+This repo is the middle layer of a three-repo GitOps platform:
+
+| Repo                                            | Role                                   |
+|-------------------------------------------------|----------------------------------------|
+| `platform-infra`                                | Terraform — provisions GKE, VPC, IAM,  Artifact Registry                      |
+| `voting-app`                                    | Application source code + CI builds + image push                           |
+| **`gitops-microservices-platform`** (this repo) | Desired Kubernetes state — watched by  ArgoCD                                 |
 
 ```
+voting-app CI pushes new image tag
+              │
+              ▼
+  gitops-microservices-platform
+  (kustomize edit set image → git commit)
+              │
+              ▼
+      ArgoCD detects the change
+              │
+              ▼
+    GKE cluster synced ✓
+```
+---
+## Architecture
+
+![Project Overview](docs/images/architecture.png "Project Demo")
+
+---
+## Folder Structure
+
+```
+
 ---
 ## Folders In Detail
 
