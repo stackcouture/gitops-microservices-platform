@@ -25,6 +25,42 @@ The **GitOps repository** for the [gitops-platform-engineering](https://github.c
 ArgoCD continuously watches this repository and automatically reconciles the live cluster state to match what is defined here. No manual `kubectl apply` is ever used for deployments.
 
 ---
+## Project Overview
+
+This repository showcases a **production-inspired GitOps microservices platform** built on **Google Kubernetes Engine (GKE)**. It demonstrates modern cloud-native practices by combining **Terraform**, **GitHub Actions**, **Argo CD**, and **Kubernetes** to provision infrastructure, automate CI/CD, and manage declarative application deployments through GitOps.
+
+The platform deploys a **polyglot voting application** composed of multiple microservices (Frontend, Vote, Result, Worker, Redis, and PostgreSQL) while integrating production-inspired capabilities such as **progressive delivery**, **policy enforcement**, **secret management**, **autoscaling**, and **observability**.
+
+### Key Highlights
+
+* Infrastructure provisioning with **Terraform**
+* GitOps-based deployments using **Argo CD** and **Kustomize**
+* CI pipeline automation with **GitHub Actions**
+* Progressive delivery with **Argo Rollouts**
+* Security using **Kyverno** and **External Secrets**
+* Gateway API for Kubernetes networking
+* Autoscaling with **HPA** and **KEDA**
+* Monitoring with **Prometheus**, **Grafana**
+
+This project serves as a portfolio demonstrating production-inspired DevOps, GitOps, and Platform Engineering practices on Kubernetes.
+
+---
+## Why This Project
+
+Modern cloud-native applications require more than just deploying containers—they demand reliable infrastructure, automated delivery, security, observability, and scalable operations. This project was created to demonstrate how these capabilities can be integrated into a production-inspired Kubernetes platform using GitOps principles.
+
+Rather than focusing only on the application itself, this repository showcases the end-to-end platform that provisions infrastructure, automates CI/CD, enforces security policies, manages secrets, enables progressive delivery, provides observability, and supports autoscaling on **Google Kubernetes Engine (GKE)**.
+
+The goal is to provide a practical reference implementation for DevOps and Platform Engineering practices using modern CNCF and cloud-native technologies.
+
+---
+## Platform Architecture
+
+<p align="left">
+  <img src="assets/screenshots/architecture.png" width="550" alt="Architecture">
+</p>
+
+---
 ## 🎥 Demo Walkthrough
 
 ---
