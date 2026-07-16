@@ -54,13 +54,6 @@ Rather than focusing only on the application itself, this repository showcases t
 The goal is to provide a practical reference implementation for DevOps and Platform Engineering practices using modern CNCF and cloud-native technologies.
 
 ---
-## Platform Architecture
-
-<p align="left">
-  <img src="docs/images/architecture.png" width="900" alt="Architecture">
-</p>
-
----
 ## Platform Capabilities
 
 | Capability                          | Implementation                                                                                                                |
@@ -76,6 +69,55 @@ The goal is to provide a practical reference implementation for DevOps and Platf
 | **Observability**                   | Provides metrics, dashboards and alerting with Prometheus and Grafana.                           |
 | **Autoscaling**                     | Supports resource-based and event-driven scaling using HPA and KEDA.                                                          |
 | **Stateful Services**               | Deploys PostgreSQL and Redis as persistent data services for application workloads.                                           |
+
+---
+## Technology Stack
+
+| Category                   | Technologies                                     |
+| -------------------------- | ------------------------------------------------ |
+| **Cloud Platform**         | Google Cloud Platform (GCP)                      |
+| **Infrastructure as Code** | Terraform                                        |
+| **Container Platform**     | Docker, Google Kubernetes Engine (GKE)           |
+| **Continuous Integration** | GitHub Actions                                   |
+| **GitOps**                 | Argo CD, Kustomize                               |
+| **Container Registry**     | Google Artifact Registry                         |
+| **Networking**             | Kubernetes Gateway API                           |
+| **Progressive Delivery**   | Argo Rollouts                                    |
+| **Security**               | Kyverno, External Secrets, Google Secret Manager |
+| **Observability**          | Prometheus, Grafana, Loki                        |
+| **Autoscaling**            | Horizontal Pod Autoscaler (HPA), KEDA            |
+| **Data Services**          | PostgreSQL, Redis                                |
+| **Languages & Frameworks** | Python (Flask), Node.js (Express), .NET          |
+| **Version Control**        | Git, GitHub                                      |
+
+---
+## Platform Architecture
+
+### Architecture Diagram
+
+<p align="left">
+  <img src="docs/images/architecture.png" width="900" alt="Architecture">
+</p>
+
+### Architecture Overview
+
+The platform is organized into four logical layers, each responsible for a specific part of the application lifecycle.
+
+#### Infrastructure Layer
+
+The infrastructure layer provisions the Google Cloud environment using Terraform, including networking, IAM, Google Kubernetes Engine (GKE), and Artifact Registry.
+
+#### CI Layer
+
+The CI layer uses GitHub Actions to build, test, scan, sign, and publish container images. Successful builds update the GitOps repository with the new image versions.
+
+#### GitOps Layer
+
+The GitOps layer serves as the single source of truth for Kubernetes manifests. Argo CD continuously monitors the GitOps repository and reconciles the desired state with the Kubernetes cluster, enabling automated deployments and self-healing.
+
+#### Kubernetes Platform Layer
+
+The Kubernetes platform hosts the application workloads and platform services. The voting application runs alongside operational components such as Gateway API, Argo Rollouts, Kyverno, External Secrets, Prometheus, Grafana, Loki, HPA, and KEDA, providing networking, security, observability, progressive delivery, and autoscaling capabilities.
 
 ---
 ## 🎥 Demo Walkthrough
