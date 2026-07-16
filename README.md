@@ -481,19 +481,6 @@ gitops-microservices-platform/
 
 The repository is organized into logical directories, each responsible for a specific layer of the GitOps platform.
 
-| Directory           | Purpose                                                                                                    |
-| :------------------ | :--------------------------------------------------------------------------------------------------------- |
-| **apps/**           | Kubernetes manifests for application workloads managed with Kustomize overlays.                            |
-| **infrastructure/** | Stateful services such as PostgreSQL, Redis, and supporting infrastructure components.                     |
-| **platform/**       | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
-| **security/**       | Kubernetes security policies, runtime security, and network segmentation.                                  |
-| **governance/**     | Namespace governance through ResourceQuota and LimitRange policies.                                        |
-| **automation/**     | Operational automation using Kubernetes CronJobs and supporting resources.                                 |
-| **argocd/**         | Argo CD AppProjects and ApplicationSets for GitOps-based deployment and lifecycle management.              |
-
-> **Note:** Detailed documentation for each directory and its components is available in the **[`docs/`](docs/)** directory.
-
-
 ---
 ## Demo Screenshots
 
@@ -508,5 +495,20 @@ The repository is organized into logical directories, each responsible for a spe
 ### Kubecost
 
 ![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
+
+---
+## Documentation
+
+| Directory           | Purpose                                                                                                    |
+| :------------------ | :--------------------------------------------------------------------------------------------------------- |
+| **apps/**           | Kubernetes manifests for application workloads managed with Kustomize overlays.                            |
+| **infrastructure/** | Stateful services such as PostgreSQL, Redis, and supporting infrastructure components.                     |
+| **platform/**       | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
+| **security/**       | Kubernetes security policies, runtime security, and network segmentation.                                  |
+| **governance/**     | Namespace governance through ResourceQuota and LimitRange policies.                                        |
+| **automation/**     | Operational automation using Kubernetes CronJobs and supporting resources.                                 |
+| **argocd/**         | Argo CD AppProjects and ApplicationSets for GitOps-based deployment and lifecycle management.              |
+
+> **Note:** Detailed documentation for each directory and its components is available in the **[`docs/`](docs/)** directory.
 
 ---
