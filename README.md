@@ -479,8 +479,6 @@ gitops-microservices-platform/
                   └── kustomization.yaml
 ```
 
-## Repository Structure
-
 The repository is organized into logical directories, each responsible for a specific layer of the GitOps platform.
 
 | Directory           | Purpose                                                                                                    |
@@ -511,43 +509,4 @@ The repository is organized into logical directories, each responsible for a spe
 
 ![Kubecost](docs/images/kubecost.gif "Kubecost Demo")
 
-
 ---
-
-## Overview
-
-This repo contains **no application source code**. It contains only Kubernetes manifests, Kustomize overlays, and ArgoCD configuration — the desired state of the cluster. It is updated automatically by the CI pipeline in `voting-app` whenever a new image is built and pushed.
-
-| What lives here                                  | What does NOT live here       |
-|--------------------------------------------------|-------------------------------|
-| Kubernetes Deployments, Services, ConfigMaps     | Application source code       |
-| Kustomize `base/` and `overlays/`                | Dockerfiles                   |
-| ArgoCD `Application` and `AppProject` manifests  | CI pipeline definitions       |
-| Infrastructure add-on configs (namespaces, RBAC) | Terraform infrastructure code |
-| Platform tooling manifests                       | Secrets (managed via External Secrets or Sealed Secrets)  |
-
----
-## How It Fits Into the Platform
-
-This repo is the middle layer of a three-repo GitOps platform:
-
-| Repo                                            | Role                                   |
-|-------------------------------------------------|----------------------------------------|
-| `platform-infra`                                | Terraform — provisions GKE, VPC, IAM,  Artifact Registry                      |
-| `voting-app`                                    | Application source code + CI builds + image push                           |
-| **`gitops-microservices-platform`** (this repo) | Desired Kubernetes state — watched by  ArgoCD                                 |
-
-```
-voting-app CI pushes new image tag
-              │
-              ▼
-  gitops-microservices-platform
-  (kustomize edit set image → git commit)
-              │
-              ▼
-      ArgoCD detects the change
-              │
-              ▼
-    GKE cluster synced ✓
-```
-
