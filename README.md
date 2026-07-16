@@ -57,7 +57,7 @@ The goal is to provide a practical reference implementation for DevOps and Platf
 ## Platform Architecture
 
 <p align="left">
-  <img src="docs/images/architecture.png" width="550" alt="Architecture">
+  <img src="docs/images/architecture.png" width="900" alt="Architecture">
 </p>
 
 ---
