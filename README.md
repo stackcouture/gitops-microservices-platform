@@ -57,13 +57,11 @@ The goal is to provide a practical reference implementation for DevOps and Platf
 ## Platform Architecture
 
 <p align="left">
-  <img src="assets/screenshots/architecture.png" width="550" alt="Architecture">
+  <img src="docs/images/architecture.png" width="550" alt="Architecture">
 </p>
 
 ---
 ## 🎥 Demo Walkthrough
-
----
 
 ### 🔵 Blue-Green Deployment
 
