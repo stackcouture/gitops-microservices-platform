@@ -509,7 +509,7 @@ The repository is organized into logical directories, each responsible for a spe
 | **automation/**     | Operational automation using Kubernetes CronJobs and supporting resources.                                 |
 | **argocd/**         | Argo CD AppProjects and ApplicationSets for GitOps-based deployment and lifecycle management.              |
 
-> **Note:** Detailed documentation for each directory and its components is available in the **[`docs/`](docs/)** directory.
+> **Note:** Detailed documentation for each directory and its components is available in the **[`docs/`](docs/platform-components)** directory.
 
 ---
 ## Future Enhancements
