@@ -61,6 +61,23 @@ The goal is to provide a practical reference implementation for DevOps and Platf
 </p>
 
 ---
+## Platform Capabilities
+
+| Capability                          | Implementation                                                                                                                |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Infrastructure Provisioning**     | Provisions and manages Google Cloud infrastructure using Terraform.                                                           |
+| **Container Orchestration**         | Runs containerized workloads on Google Kubernetes Engine (GKE).                                                               |
+| **GitOps Continuous Delivery**      | Synchronizes Kubernetes manifests from Git repositories using Argo CD.                                                        |
+| **Continuous Integration**          | Automates testing, image building, security scanning, signing, and publishing with GitHub Actions.                            |
+| **Configuration Management**        | Manages Kubernetes manifests across environments using Kustomize.                                                             |
+| **Progressive Delivery**            | Performs controlled canary deployments using Argo Rollouts.                                                                   |
+| **Networking & Traffic Management** | Routes external traffic using the Kubernetes Gateway API.                                                                     |
+| **Security & Secrets Management**   | Enforces Kubernetes policies with Kyverno and manages secrets through External Secrets integrated with Google Secret Manager and Hashicorp Vault. |
+| **Observability**                   | Provides metrics, dashboards and alerting with Prometheus and Grafana.                           |
+| **Autoscaling**                     | Supports resource-based and event-driven scaling using HPA and KEDA.                                                          |
+| **Stateful Services**               | Deploys PostgreSQL and Redis as persistent data services for application workloads.                                           |
+
+---
 ## 🎥 Demo Walkthrough
 
 ### 🔵 Blue-Green Deployment
