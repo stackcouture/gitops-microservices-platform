@@ -530,3 +530,6 @@ The platform is continuously evolving. Planned enhancements include:
 These enhancements will further improve the platform's scalability, reliability, security, and operational maturity.
 
 ---
+## License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
