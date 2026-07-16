@@ -191,7 +191,7 @@ The repository is organized into logical directories, each responsible for a spe
 
 ### Platform Monitoring
 
-![Kubecost](docs/images/grafana.gif "Platform Monitoring")
+![Monitoring](docs/images/grafana.gif "Platform Monitoring")
 
 ### Cost Visibility
 
