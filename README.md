@@ -55,10 +55,9 @@ This repository complements the **gke-infrastructure** repository, which provisi
 - [Overview](#overview)
   - [Key Highlights](#key-highlights)
 - [Why This Project](#why-this-project)
-- [Platform Capabilities](#platform-capabilities)
+- [Key Capabilities](#key-capabilities)
 - [Technology Stack](#technology-stack)
-- [Platform Architecture](#platform-architecture)
-  - [Architecture Diagram](#architecture-diagram)
+- [Architecture](#architecture)
   - [Key Architectural Layers](#key-architectural-layers)
     - [Infrastructure Layer](#infrastructure-layer)
     - [CI Layer](#ci-layer)
@@ -68,7 +67,7 @@ This repository complements the **gke-infrastructure** repository, which provisi
 - [Demo](#demo)
   - [Blue-Green Deployment](#blue-green-deployment)
   - [Canary Deployment](#canary-deployment)
-  - [Platform Monitoring](#platform-monitoring)
+  - [Monitoring](#monitoring)
   - [Cost Visibility](#cost-visibility)
 - [Documentation](#documentation)
 - [Future Enhancements](#future-enhancements)
@@ -84,7 +83,7 @@ Rather than focusing only on the application itself, this repository showcases t
 The goal is to provide a practical reference implementation for DevOps and Platform Engineering practices using modern CNCF and cloud-native technologies.
 
 ---
-## Platform Capabilities
+## Key Capabilities
 
 | Capability                          | Implementation                                                                                                                |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -121,12 +120,10 @@ The goal is to provide a practical reference implementation for DevOps and Platf
 | **Version Control**        | Git, GitHub                                      |
 
 ---
-## Platform Architecture
-
-### Architecture Diagram
+## Architecture
 
 <p align="left">
-  <img src="docs/images/architecture.png" width="900" alt="Architecture">
+  <img src="docs/images/arch.png" width="900" alt="Architecture">
 </p>
 
 ### Key Architectural Layers
@@ -153,7 +150,7 @@ The Kubernetes platform hosts the application workloads and platform services. T
 ## Repository Structure
 
 ```
-gitops-microservices-platform/
+gke-gitops/
 ├── apps/
 │   ├── vote/
 │   ├── result/
@@ -198,9 +195,9 @@ The repository is organized into logical directories, each responsible for a spe
 
 ![Canary Deployment](docs/images/canary-deployment.gif "Canary Deployment Demo")
 
-### Platform Monitoring
+### Monitoring
 
-![Monitoring](docs/images/grafana.gif "Platform Monitoring")
+![Monitoring](docs/images/grafana.gif "Monitoring")
 
 ### Cost Visibility
 
@@ -214,7 +211,7 @@ The repository is organized into logical directories, each responsible for a spe
 | **[Repository Structure](docs/platform-components/repository-structure.md)** | Complete repository layout, directory hierarchy, and Kubernetes manifest organization. |
 | **[Applications](docs/platform-components/applications.md)** | Kubernetes manifests for application workloads managed with Kustomize overlays. |
 | **[Infrastructure](docs/platform-components/infrastructure.md)** | Stateful services such as PostgreSQL, Redis, pgAdmin, and supporting infrastructure components. |
-| **[Platform Services](docs/platform-components/platform-services.md)** | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
+| **[Platform](docs/platform-components/platform.md)** | Shared platform services including networking, certificates, monitoring, namespaces, and backup resources. |
 | **[Security](docs/platform-components/security.md)** | Kubernetes security policies, runtime security, and network segmentation. |
 | **[Governance](docs/platform-components/governance.md)** | Namespace governance through ResourceQuota and LimitRange policies. |
 | **[Automation](docs/platform-components/automation.md)** | Operational automation using Kubernetes CronJobs and supporting resources. |
