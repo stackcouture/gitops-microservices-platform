@@ -1,4 +1,33 @@
-# Gitops Microservices Platform
+
+## GKE GitOps
+
+Declarative Kubernetes configuration for a production-inspired Google Kubernetes Engine (GKE) environment using Argo CD, Kustomize, and GitOps principles.
+
+---
+## Overview
+
+This repository serves as the **GitOps source of truth** for a **production-inspired Kubernetes environment** running on **Google Kubernetes Engine (GKE)**. It stores the declarative Kubernetes manifests that define the desired state of the cluster, including **application deployments**, **shared platform services**, **infrastructure components**, **security policies**, **governance controls**, **observability**, **networking**, **autoscaling**, **operational automation**, and **Argo CD** configuration.
+
+Using **Argo CD** and **Kustomize**, all Kubernetes resources are version-controlled, automatically synchronized, and continuously reconciled with the cluster. This GitOps workflow enables automated deployments, self-healing, configuration drift detection, and consistent Kubernetes configuration management without manually applying manifests.
+
+### Key Highlights
+
+* GitOps-based continuous delivery using **Argo CD** and **Kustomize**
+* Application deployment and environment management using **Kustomize** overlays
+* CI automation using **GitHub Actions**
+* Progressive delivery with **Argo Rollouts**
+* Kubernetes policy enforcement with **Kyverno**
+* Secrets management with **External Secrets** and **HashiCorp Vault**
+* Kubernetes networking using the **Gateway API**
+* Horizontal autoscaling with **HPA** and **KEDA**
+* Observability with **Prometheus** and **Grafana**
+* Cost visibility with **Kubecost**
+* Runtime security monitoring with **Falco**
+* Backup and disaster recovery with **Velero**
+* Certificate management with **cert-manager**
+* Declarative governance, security, and operational configuration managed through GitOps
+
+This repository complements the **gke-infrastructure** repository, which provisions the underlying Google Cloud infrastructure using Terraform. Once the infrastructure is created, this repository manages Kubernetes applications, platform services, governance, security, and day-2 operational resources through a GitOps workflow.
 
 <div align="center">
 
@@ -16,29 +45,9 @@
 ![KEDA](https://img.shields.io/badge/KEDA-Event_Driven_Autoscaling-5A0FC8?style=for-the-badge)
 ![Slack](https://img.shields.io/badge/Slack-Notifications-4A154B?style=for-the-badge&logo=slack)
 
-**Production-inspired GitOps repository for managing Kubernetes applications, infrastructure, platform services, security, and operational automation on Google Kubernetes Engine (GKE).**
+**This project is part of my portfolio and demonstrates production-inspired Kubernetes, GitOps, DevOps, and Platform Engineering practices on Google Kubernetes Engine (GKE).**
 
 </div>
-
----
-## Overview
-
-This repository serves as the **GitOps source of truth** for the **GitOps Microservices Platform.** It stores the declarative Kubernetes manifests that define the desired state of the platform, including application workloads, infrastructure components, shared platform services, security policies, governance controls, operational automation, and Argo CD configuration.
-
-Using **Argo CD** and **Kustomize**, all changes are version-controlled, automatically synchronized, and continuously reconciled with the Kubernetes cluster. This GitOps workflow enables automated deployments, self-healing, configuration drift detection, and consistent platform management without manually applying Kubernetes manifests.
-
-### Key Highlights
-
-* ✅ Infrastructure provisioning with **Terraform**
-* ✅ GitOps-based deployments using **Argo CD** and **Kustomize**
-* ✅ CI pipeline automation with **GitHub Actions**
-* ✅ Progressive delivery with **Argo Rollouts**
-* ✅ Security using **Kyverno** and **External Secrets**
-* ✅ Gateway API for Kubernetes networking
-* ✅ Autoscaling with **HPA** and **KEDA**
-* ✅ Monitoring with **Prometheus**, **Grafana**
-
-This project serves as a portfolio demonstrating production-inspired DevOps, GitOps, and Platform Engineering practices on Kubernetes.
 
 ---
 ## Table of Contents
